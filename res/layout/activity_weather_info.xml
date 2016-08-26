@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- add button layout -->
+
+    <include layout="@layout/layout_button" />
+
+    <!-- there is weather info layout -->
+
+    <LinearLayout
+        android:id="@+id/layout_weatherinfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#27a5f9"
+        android:orientation="vertical" >
+
+        <!-- weather info layout -->
+
+        <include layout="@layout/layout_weatherinfo" />
+
+        <!-- little info layout -->
+
+        <include layout="@layout/layout_littleinfo" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff" />
+
+        <include layout="@layout/layout_hourly_forecast" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" >
+
+            <include layout="@layout/layout_scroll_info" />
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

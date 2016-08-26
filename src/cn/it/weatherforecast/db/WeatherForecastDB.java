@@ -27,6 +27,7 @@ public class WeatherForecastDB implements WeatherForecastDBInterface
 		mDB=dbHelper.getWritableDatabase();
 	}
 
+	//使用同步锁来控制多线程的访问，防止出现线程混乱
 	public synchronized static WeatherForecastDB getInstance(Context context)
 	{
 		if(mWeatherForecastDB==null)
@@ -35,6 +36,7 @@ public class WeatherForecastDB implements WeatherForecastDBInterface
 		}
 		return mWeatherForecastDB;
 	}
+	
 	@Override
 	public void saveAreas(List<Areas> areas) {
 		if(mDB!=null)
@@ -56,8 +58,46 @@ public class WeatherForecastDB implements WeatherForecastDBInterface
 	public List<Areas> loadAreas() {
 		if(mDB!=null)
 		{
-			Cursor cursor=mDB.query("City", null, null, null, null, null, null, null);
+			Cursor cursor=mDB.query("City", null, null, null, null, null, "city_name");
 			List<Areas> areasList=null;
+			if(cursor!=null)
+			{
+				areasList=new ArrayList<Areas>();
+				if(cursor.moveToFirst())
+				{
+					do{
+						Areas areas=new Areas();
+						areas.setCityName(cursor.getString
+								(cursor.getColumnIndex("city_name")));
+						areas.setCityId(cursor.getString
+								(cursor.getColumnIndex("city_id")));
+						areas.setCityLat(cursor.getString
+								(cursor.getColumnIndex("city_lat")));
+						areas.setCityLon(cursor.getString
+								(cursor.getColumnIndex("city_lon")));
+						areasList.add(areas);
+					}while(cursor.moveToNext());
+				}
+			}
+			cursor.close();
+			return areasList;
+		}
+		return null;
+	}
+
+	@Override
+	public List<Areas> loadAreas(String s) {
+		// TODO Auto-generated method stub
+		if(mDB!=null)
+		{
+			Cursor cursor=mDB.query
+					("City", null, "city_name=?", new String[]{s}, null, null, "city_name");
+			List<Areas> areasList=null;
+			if(cursor.getCount()==0)
+			{
+				cursor=mDB.query
+						("City", null, "city_name LIKE ?", new String[]{"%"+s+"%"}, null, null, "city_name");
+			}
 			if(cursor!=null)
 			{
 				areasList=new ArrayList<Areas>();

@@ -14,6 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import cn.it.weatherforecast.R;
 import cn.it.weatherforecast.db.WeatherForecastDB;
@@ -31,6 +32,8 @@ public class ChooseAreasActivity extends Activity {
 	
 	private EditText mEditText;
 	
+	private TextView mEmptyText;
+	
 	private ProgressDialog mProgressDialog;
 	
 	private ArrayAdapter<String> mAdapter;
@@ -38,9 +41,11 @@ public class ChooseAreasActivity extends Activity {
 	private List<String> mDataList=new ArrayList<String>();
 	
 	private List<Areas> mListArea;
+	
 	private Areas mSelectArea;
 	
-	boolean result=false;
+	private boolean isGetAreas=false;
+	
 	
 	//获取城市信息的URL
     private static final String URL=
@@ -49,23 +54,50 @@ public class ChooseAreasActivity extends Activity {
     //为EditText设置TextWatcher，监听EditText输入的动作变化，进行操作
     private TextWatcher mMyWatcher=new TextWatcher() {
 		
+    	CharSequence temp;
+    	private int editStart ;
+        private int editEnd ;
 		@Override
 		public void onTextChanged(CharSequence s, int start, int count, int before) {
 			// TODO Auto-generated method stub
-			Toast.makeText(ChooseAreasActivity.this, s, Toast.LENGTH_SHORT).show();
+			mListArea=mDB.loadAreas(s.toString());
+			if(mListArea.size()!=0)
+			{
+				mDataList.clear();
+				
+				for (Areas areas : mListArea) {
+					mDataList.add(areas.getCityName());
+				}
+				mAdapter.notifyDataSetChanged();
+				
+			}
+			else{
+			     mDataList.clear();
+			     mAdapter.notifyDataSetChanged();
+			}
 		}
 		
 		@Override
 		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 				int arg3) {
 			// TODO Auto-generated method stub
-			
+			temp=arg0;
 		}
 		
 		@Override
 		public void afterTextChanged(Editable arg0) {
 			// TODO Auto-generated method stub
+			editStart=mEditText.getSelectionStart();
+			editEnd=mEditText.getSelectionEnd();
 			
+			//此种形式，可以限制editText输入的字数个数
+			if(temp.length()>20)
+			{
+				Toast.makeText(ChooseAreasActivity.this, "最多输入9个汉字", Toast.LENGTH_SHORT).show();
+				arg0.delete(editStart-1, editEnd);
+				int tempSelection=editStart;
+				mEditText.setSelection(tempSelection);
+			}
 		}
 	};
     
@@ -91,18 +123,40 @@ public class ChooseAreasActivity extends Activity {
 		
 		mEditText.addTextChangedListener(mMyWatcher);
 		
+		
 		queryAreas();
 	}
+	
+	//封装的方法，对组件进行初始化操作
+	public void initComponent()
+	{
+		mAreaList=(ListView) findViewById(R.id.list_area);
+		
+		mAreaList.setEmptyView(mEmptyText);
+		
+		mEditText=(EditText) findViewById(R.id.edit_area);
+		
+	}
+	
 	//该方法用于查询SQLite中的城市信息，如果没有则从HTPP中获取，并将其保存到SQLite中
 	protected void queryAreas() {
 		// TODO Auto-generated method stub
 		mDB=WeatherForecastDB.getInstance(this);
 		mListArea=mDB.loadAreas();
-		if(mListArea.size()<-1)
+		if(mListArea.size()==0)
 		{
-			getFromServer();
+			if(isGetAreas)
+			{
+				mAreaList.setEmptyView(mEmptyText);
+			}
+			else
+			{
+				getFromServer();
+			}
 		}
 		else{
+			isGetAreas=true;
+			
 			mDataList.clear();
 			
 			for (Areas areas : mListArea) {
@@ -115,11 +169,11 @@ public class ChooseAreasActivity extends Activity {
 	//运用封装的HTTP服务，从网上获取城市的信息
 	private void getFromServer() {
 		// TODO Auto-generated method stub
-
+		
 		showProgressDialog();
 		
 		HttpUtil.sendHttpRequest(URL, new HttpCallbaceListener() {
-			
+			boolean result=false;
 			@Override
 			public void onFinish(String response) {
 				// TODO Auto-generated method stub
@@ -127,6 +181,7 @@ public class ChooseAreasActivity extends Activity {
 				closeProgressDialog();
 				if(result)
 				{
+					isGetAreas=true;
 					runOnUiThread(new Runnable() {
 						
 						@Override
@@ -155,12 +210,7 @@ public class ChooseAreasActivity extends Activity {
 		});
 	}
 
-	//封装的方法，对组件进行初始化操作
-	public void initComponent()
-	{
-		mAreaList=(ListView) findViewById(R.id.list_area);
-		mEditText=(EditText) findViewById(R.id.edit_area);
-	}
+
 	
 	//当开启子线程，进行耗时操作时，打开一个进度条，进行人性化设计
 	private void showProgressDialog() {

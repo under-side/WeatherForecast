@@ -5,5 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_choose_areas">ChooseAreasActivity</string>
     <string name="edit_area">搜索</string>
+    <string name="empty_text">无数据</string>
+    <string name="title_activity_weather_info">WeatherInfo</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

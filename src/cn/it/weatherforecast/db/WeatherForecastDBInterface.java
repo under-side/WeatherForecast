@@ -19,4 +19,6 @@ public interface WeatherForecastDBInterface {
 	public void saveAreas(List<Areas> areas);
 	
 	public List<Areas> loadAreas();
+	
+	public List<Areas> loadAreas(String s);
 }

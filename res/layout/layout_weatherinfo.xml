@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- there is weather info layout -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/current_data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
+        android:text="data" />
+
+    <TextView
+        android:id="@+id/publish_data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:text="publish" />
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/publish_data_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="信阳"
+        android:textColor="#678903"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/weather_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city_name"
+        android:layout_toLeftOf="@id/city_name"
+        android:layout_marginTop="12dp"
+        android:text="晴天"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/weather_info_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/city_name"
+        android:layout_toRightOf="@id/city_name"
+        android:src="@drawable/weather" />
+
+    <TextView
+        android:id="@+id/weather_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_info_image"
+        android:layout_centerHorizontal="true"
+        android:text="35"
+        android:textSize="40sp" />
+
+</RelativeLayout>

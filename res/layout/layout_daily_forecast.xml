@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- daily forecast layout -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily1_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily1_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily1_low_temperature"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily1_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+       android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily2_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily2_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily2_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily2_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily3_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily3_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily3_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily3_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily4_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily4_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily4_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily4_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+       android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily5_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily5_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily5_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily5_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+       android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily6_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily6_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily6_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily6_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/daily7_low_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="25°" />
+
+        <TextView
+            android:id="@+id/daily7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="今天" />
+
+        <TextView
+            android:id="@+id/daily7_top_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/daily7_low_temperature"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:text="35°" />
+
+        <ImageView
+            android:id="@+id/daily7_image"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/weather" />
+
+    </RelativeLayout>
+
+</LinearLayout>
