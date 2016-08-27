@@ -6,27 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/current_data_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="10dp"
-        android:text="data" />
-
-    <TextView
-        android:id="@+id/publish_data_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:text="publish" />
 
     <TextView
         android:id="@+id/city_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/publish_data_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="信阳"
@@ -38,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/city_name"
-        android:layout_toLeftOf="@id/city_name"
         android:layout_marginTop="12dp"
+        android:layout_toLeftOf="@id/city_name"
         android:text="晴天"
         android:textSize="20sp" />
 

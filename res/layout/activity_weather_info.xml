@@ -17,35 +17,17 @@
         android:background="#27a5f9"
         android:orientation="vertical" >
 
-        <!-- weather info layout -->
-
-        <include layout="@layout/layout_weatherinfo" />
-
-        <!-- little info layout -->
-
-        <include layout="@layout/layout_littleinfo" />
-
-        <View
+        <RelativeLayout 
+            android:id="@+id/layout_for_fragment_now"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff" />
+            android:layout_height="wrap_content"/>
 
-        <include layout="@layout/layout_hourly_forecast" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="5dp"
-            android:background="#ffffff" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp" >
-
-            <include layout="@layout/layout_scroll_info" />
-        </ScrollView>
+       
+        <RelativeLayout 
+            android:id="@+id/layout_for_fragment_scroll"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+        
     </LinearLayout>
 
 </LinearLayout>
