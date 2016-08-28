@@ -131,7 +131,7 @@ public class Utility {
 			JSONArray jsonArray) {
 		// TODO Auto-generated method stub
 		Editor editor = data.edit();
-		for (int i = 0; i < jsonArray.length(); i++) {
+		for (int i = 1; i <= jsonArray.length(); i++) {
 			try {
 				JSONObject info = jsonArray.getJSONObject(i);
 				editor.putString("hourly_date" + i, info.getString("date"));
@@ -172,7 +172,7 @@ public class Utility {
 	private static void saveInfoDailyForecast(SharedPreferences data,
 			JSONArray jsonArray) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < jsonArray.length(); i++) {
+		for (int i = 1; i <= jsonArray.length(); i++) {
 			try {
 				JSONObject info = jsonArray.getJSONObject(i);
 

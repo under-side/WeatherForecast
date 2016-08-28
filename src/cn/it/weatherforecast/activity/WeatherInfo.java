@@ -15,8 +15,8 @@ public class WeatherInfo extends Activity implements OnGestureListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_weather_info);
-		String selectCity=getIntent().getStringExtra("select_city");
-		WeatherInfoBeforeFragment beforeFragment=new WeatherInfoBeforeFragment(this, selectCity);
+		String selectCityId=getIntent().getStringExtra("select_city_id");
+		WeatherInfoBeforeFragment beforeFragment=new WeatherInfoBeforeFragment(this, selectCityId);
 		FragmentManager fm=getFragmentManager();
 		fm.beginTransaction()
 		.replace(R.id.layout_for_fragment_now, beforeFragment)

@@ -116,17 +116,15 @@ public class ChooseAreasActivity extends Activity {
 		// 根据选择的Item来获取指定城市的天气信息
 		mAreaList.setOnItemClickListener(new OnItemClickListener() {
 
-			String selectCity;
 			String selectCityId;
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Areas selectArea=mListArea.get(arg2);
-				selectCity=selectArea.getCityName();
 				selectCityId=selectArea.getCityId();
 				 String weatherInfoUrl=mWeatherInfo+selectCityId+mDeveloperId;
-				 final SharedPreferences data=getSharedPreferences(selectCity,
+				 final SharedPreferences data=getSharedPreferences(selectCityId,
 				 Context.MODE_PRIVATE);
 				 HttpUtilForDowloadJson.sendHttpRequest(weatherInfoUrl, new
 				 HttpCallbackListenerForJson() {
@@ -146,7 +144,7 @@ public class ChooseAreasActivity extends Activity {
 				 });
 				 Intent intent=new
 				 Intent(ChooseAreasActivity.this,WeatherInfo.class);
-				 intent.putExtra("select_city", selectCity);
+				 intent.putExtra("select_city_id", selectCityId);
 				 startActivity(intent);
 			}
 		});

@@ -42,12 +42,12 @@ public class WeatherInfoBeforeFragment extends Fragment {
 
 	private static final String mPhtotURL = "http://files.heweather.com/cond_icon/";
 
-	private String mSelectCity;
+	private String mSelectCityId;
 	Context mContext;
 
-	public WeatherInfoBeforeFragment(Context context, String selectCity) {
+	public WeatherInfoBeforeFragment(Context context, String selectCityId) {
 		mContext = context;
-		mSelectCity = selectCity;
+		mSelectCityId = selectCityId;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class WeatherInfoBeforeFragment extends Fragment {
 
 		initComponent(view);
 
-		SharedPreferences data = mContext.getSharedPreferences(mSelectCity,
+		SharedPreferences data = mContext.getSharedPreferences(mSelectCityId,
 				Context.MODE_PRIVATE);
 		showDataView(data);
 		return view;
@@ -68,7 +68,7 @@ public class WeatherInfoBeforeFragment extends Fragment {
 	private void showDataView(SharedPreferences data) {
 		// TODO Auto-generated method stub
 		mCurrentDate.setText(data.getString("daily_date1", ""));
-		String[] update = data.getString("basic_update", "").split(" ");
+		String[] update = data.getString("basic_loc", "").split(" ");
 		mUpdateTime.setText(update[1]);
 		mCityName.setText(data.getString("basic_city", ""));
 		mWeatherTxt.setText(data.getString("now_txt", ""));
