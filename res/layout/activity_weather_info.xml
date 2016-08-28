@@ -9,25 +9,25 @@
 
     <!-- there is weather info layout -->
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_weatherinfo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:background="#27a5f9"
         android:orientation="vertical" >
 
-        <RelativeLayout 
+        <RelativeLayout
             android:id="@+id/layout_for_fragment_now"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-       
-        <RelativeLayout 
+        <RelativeLayout
             android:id="@+id/layout_for_fragment_scroll"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"/>
-        
-    </LinearLayout>
+            android:layout_below="@id/layout_for_fragment_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

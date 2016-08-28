@@ -18,17 +18,17 @@
         <activity
             android:name=".activity.ChooseAreasActivity"
             android:label="@string/title_activity_choose_areas" >
-             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity
             android:name="cn.it.weatherforecast.activity.WeatherInfo"
             android:label="@string/title_activity_weather_info" >
             
-           
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

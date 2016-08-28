@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:baselineAligned="false"
-    android:layout_margin="10dp"
-    android:orientation="vertical" >
+    android:layout_margin="10dp" >
 
 
         <TextView
@@ -19,6 +17,7 @@
             android:id="@+id/hourly_persent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/hourly_date"
             android:textSize="13sp"
             android:gravity="center"
             android:text="40%" />
@@ -27,6 +26,7 @@
             android:id="@+id/hourly_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/hourly_persent"
             android:gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
@@ -36,6 +36,7 @@
             android:id="@+id/hourly_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/hourly_flow"
             android:gravity="center"
             android:text="35" />
-    </LinearLayout>
+    </RelativeLayout>

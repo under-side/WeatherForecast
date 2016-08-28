@@ -2,15 +2,18 @@
 
 <!-- horizontal ListView layout -->
 
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/horizontal_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
 
-    <ListView
-        android:id="@+id/hourly_info_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </ListView>
+    <cn.it.weatherforecast.util.HorizontalListView
+        android:id="@+id/daily_horizon_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentTop="true" >
+    </cn.it.weatherforecast.util.HorizontalListView>
 
-</HorizontalScrollView>
+</RelativeLayout>

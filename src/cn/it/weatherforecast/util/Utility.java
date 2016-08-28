@@ -139,7 +139,7 @@ public class Utility {
 				editor.putString("hourly_tmp" + i, info.getString("tmp"));
 				
 				JSONObject windObject=info.getJSONObject("wind");
-				editor.putString("hourly_sc", windObject.getString("sc"));
+				editor.putString("hourly_sc"+i, windObject.getString("sc"));
 				editor.commit();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
