@@ -2,18 +2,21 @@
 
 <!-- horizontal ListView layout -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:orientation="vertical" >
 
-    <cn.it.weatherforecast.util.HorizontalListView
-        android:id="@+id/daily_horizon_listview"
+    <GridView
+        android:id="@+id/horizontal_gridview_for_hourly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_alignParentTop="true" >
-    </cn.it.weatherforecast.util.HorizontalListView>
+        android:columnWidth="90dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="5"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" >
+    </GridView>
 
-</RelativeLayout>
+</LinearLayout>

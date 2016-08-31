@@ -6,9 +6,7 @@
 
     <!-- there is weather info of date -->
 
-    <include
-        android:id="@+id/date_layout"
-        layout="@layout/layout_weather_date" />
+    <include  layout="@layout/layout_weather_date" />
 
     <!-- there is now weather info -->
 

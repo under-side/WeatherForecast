@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+
+    <ImageView 
+        android:id="@+id/grid1_image1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/shan"/>
+    
+    <TextView 
+        android:id="@+id/gird1_text1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/grid1_image1"
+        android:layout_toLeftOf="@id/grid1_image1"
+        android:text="风向"/>
+    
+    
+    <TextView 
+        android:id="@+id/grid1_text2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/grid1_image1"
+        android:layout_below="@id/grid1_image1"
+        android:text="风力"/>
+
+    <TextView
+        android:id="@+id/grid1_text1_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid1_text2_text"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/grid1_image1"
+        android:text="东风" />
+
+    <TextView
+        android:id="@+id/grid1_text2_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/grid1_text1_detail"
+        android:layout_alignBottom="@+id/grid1_text1_detail"
+        android:layout_alignLeft="@+id/grid1_text2_text"
+        android:text="1级" />
+    
+</RelativeLayout>

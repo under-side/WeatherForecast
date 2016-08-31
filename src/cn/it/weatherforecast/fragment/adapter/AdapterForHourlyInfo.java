@@ -1,4 +1,4 @@
-package cn.it.weatherforecast.fragment;
+package cn.it.weatherforecast.fragment.adapter;
 
 import java.util.List;
 
@@ -65,14 +65,14 @@ public class AdapterForHourlyInfo extends BaseAdapter {
 	    viewHolder.hourly_date.setText(hourly.getDate());
 	    if(!hourly.getPop().equals("0"))
 	    {
-	    	viewHolder.hourly_pop.setText(hourly.getPop());
+	    	viewHolder.hourly_pop.setText(hourly.getPop()+"%");
 	    }
 	    else
 	    {
 	    	viewHolder.hourly_pop.setText("");
 	    }
 	    viewHolder.hourly_sc.setText(hourly.getSc());
-	    viewHolder.hourly_tmp.setText(hourly.getTmp());
+	    viewHolder.hourly_tmp.setText(hourly.getTmp()+"бу");
 		return view;
 	}
 }

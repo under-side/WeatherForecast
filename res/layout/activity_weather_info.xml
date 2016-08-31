@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#27a5f9"
     android:orientation="vertical" >
 
     <!-- add button layout -->
@@ -10,24 +11,13 @@
     <!-- there is weather info layout -->
 
     <RelativeLayout
-        android:id="@+id/layout_weatherinfo"
+        android:id="@+id/layout_for_fragment_now"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#27a5f9"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" />
 
-        <RelativeLayout
-            android:id="@+id/layout_for_fragment_now"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <RelativeLayout
-            android:id="@+id/layout_for_fragment_scroll"
-            android:layout_below="@id/layout_for_fragment_now"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </RelativeLayout>
-
-    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/layout_for_fragment_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

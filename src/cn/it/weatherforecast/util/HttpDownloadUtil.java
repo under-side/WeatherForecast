@@ -59,12 +59,12 @@ public class HttpDownloadUtil {
 
 			// 获取返回码(返回代码和代码描述)
 			int code = connection.getResponseCode();
-			String msg = connection.getResponseMessage();
+			//String msg = connection.getResponseMessage();
 			// 如果本次返回数据是有效的，则返回码为200
 			if (code == HttpURLConnection.HTTP_OK) {
 				// 不完善的解析方式：跳过回应头的描述，直接解析返回内容;
 				// 获取正文部分的长度, 注意：部分不规范的回应中可能取不到值
-				int leng = connection.getContentLength();
+				//int leng = connection.getContentLength();
 				String enCode = connection.getContentEncoding();
 				// 直接获取正文部分对应的输入流
 				InputStream is = connection.getInputStream();

@@ -1,7 +1,12 @@
 package cn.it.weatherforecast.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +15,9 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
 import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.model.Areas;
 
@@ -88,31 +96,43 @@ public class Utility {
 			String comfTxt = comfObject.getString("txt");
 
 			JSONObject cwObject = jsonObject.getJSONObject("cw");
-			String cwfBrf = cwObject.getString("brf");
+			String cwBrf = cwObject.getString("brf");
+			String cwTxt =cwObject.getString("txt");
 
 			JSONObject drsgObject = jsonObject.getJSONObject("drsg");
 			String drsgBrf = drsgObject.getString("brf");
+			String drsgTxt=drsgObject.getString("txt");
 
 			JSONObject fluObject = jsonObject.getJSONObject("flu");
 			String fluBrf = fluObject.getString("brf");
+			String fluTxt=fluObject.getString("txt");
 
 			JSONObject sportObject = jsonObject.getJSONObject("sport");
 			String sportBrf = sportObject.getString("brf");
+			String sportTxt=sportObject.getString("txt");
 
 			JSONObject travObject = jsonObject.getJSONObject("trav");
 			String travBrf = travObject.getString("brf");
+			String travTxt=travObject.getString("txt");
 
 			JSONObject uvObject = jsonObject.getJSONObject("uv");
 			String uvBrf = uvObject.getString("brf");
+			String uvTxt=uvObject.getString("txt");
 
 			editor.putString("suggestion_comf_brf", comfBrf);
 			editor.putString("suggestion_comf_txt", comfTxt);
-			editor.putString("suggestion_cw", cwfBrf);
+			editor.putString("suggestion_cw", cwBrf);
+			editor.putString("suggestion_cw_txt", cwTxt);
 			editor.putString("suggestion_drsg", drsgBrf);
+			editor.putString("suggestion_drsg_txt", drsgTxt);
 			editor.putString("suggestion_flu", fluBrf);
+			editor.putString("suggestion_flu_txt", fluTxt);
 			editor.putString("suggestion_sport", sportBrf);
+			editor.putString("suggestion_sport_txt", sportTxt);
 			editor.putString("suggestion_trav", travBrf);
+			editor.putString("suggestion_trav_txt", travTxt);
 			editor.putString("suggestion_uv", uvBrf);
+			editor.putString("suggestion_uv_txt", uvTxt);
 			editor.commit();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -131,13 +151,13 @@ public class Utility {
 			JSONArray jsonArray) {
 		// TODO Auto-generated method stub
 		Editor editor = data.edit();
-		for (int i = 1; i <= jsonArray.length(); i++) {
+		editor.putInt("hourly_count", jsonArray.length());
+		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
 				JSONObject info = jsonArray.getJSONObject(i);
 				editor.putString("hourly_date" + i, info.getString("date"));
 				editor.putString("hourly_pop" + i, info.getString("pop"));
 				editor.putString("hourly_tmp" + i, info.getString("tmp"));
-				
 				JSONObject windObject=info.getJSONObject("wind");
 				editor.putString("hourly_sc"+i, windObject.getString("sc"));
 				editor.commit();
@@ -158,10 +178,17 @@ public class Utility {
 			String txt = codeObject.getString("txt");
 			String fl = jsonObject.getString("fl");
 			String tmp = jsonObject.getString("tmp");
+			JSONObject windObject=jsonObject.getJSONObject("wind");
+			String dir=windObject.getString("dir");
+			String sc=windObject.getString("sc");
+			String hum=jsonObject.getString("hum");
 			editor.putString("now_code", code);
 			editor.putString("now_txt", txt);
 			editor.putString("now_fl", fl);
 			editor.putString("now_tmp", tmp);
+			editor.putString("now_dir", dir);
+			editor.putString("now_sc", sc);
+			editor.putString("now_hum", hum);
 			editor.commit();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -172,13 +199,21 @@ public class Utility {
 	private static void saveInfoDailyForecast(SharedPreferences data,
 			JSONArray jsonArray) {
 		// TODO Auto-generated method stub
-		for (int i = 1; i <= jsonArray.length(); i++) {
+		
+		Editor editor = data.edit();
+		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
 				JSONObject info = jsonArray.getJSONObject(i);
 
 				JSONObject astroObject = info.getJSONObject("astro");
-				String sr = astroObject.getString("sr");
-				String ss = astroObject.getString("ss");
+				//只保存第一个的天气日落和日出时间
+				if(i==1)
+				{
+					String sr = astroObject.getString("sr");
+					String ss = astroObject.getString("ss");
+					editor.putString("daily_sr"+i, sr);
+					editor.putString("daily_ss"+i, ss);
+				}
 
 				JSONObject condObject = info.getJSONObject("cond");
 				String code_d = condObject.getString("code_d");
@@ -190,9 +225,6 @@ public class Utility {
 				String max = tmpObject.getString("max");
 				String min = tmpObject.getString("min");
 
-				Editor editor = data.edit();
-				editor.putString("daily_sr"+i, sr);
-				editor.putString("daily_ss"+i, ss);
 				editor.putString("daily_code_d"+i, code_d);
 				editor.putString("daily_txt_d"+i, txt_d);
 				editor.putString("daily_date"+i, date);
@@ -254,4 +286,58 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getWeekFromDate(String d) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+		Date date;
+		try {
+			date = sdf.parse(d);
+			String[] weekOfDays = { "周末", "周一", "周二", "周三", "周四", "周五",
+					"周六" };
+			Calendar calendar = Calendar.getInstance();
+			if (date != null) {
+				calendar.setTime(date);
+			}
+			int w = calendar.get(Calendar.DAY_OF_WEEK)-1;
+			if (w < 0) {
+				w = 0;
+			}
+			return weekOfDays[w];
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+    //将对日期进行分割的代码封装起来，可以重复使用
+	public static String splitDateString(String time,int index)
+	{
+		String[] splitDate = time.split(" ");
+		return splitDate[index];
+	}
+	//将从网上获取图片，并将其组件赋值操作封装起来，实现代码的重用性
+	public static void setImageViewFromHttp(String url, final ImageView weatherImage) {
+		DownloadBitmapForImage downloadImage = new DownloadBitmapForImage(
+				new AsyncCallbackListenerForBitmap() {
+					
+					@Override
+					public void onFinish(byte[] photo) {
+						// TODO Auto-generated method stub
+						
+						Bitmap imageBitmap = BitmapFactory.decodeByteArray(photo, 0,
+								photo.length);
+						weatherImage.setImageBitmap(imageBitmap);
+						
+					}
+					
+					@Override
+					public void onError(String errorMessage) {
+						// TODO Auto-generated method stub
+						LogUtil.d("WeatherInfoBeforeFragment", errorMessage);
+					}
+				});
+		downloadImage.execute(url);
+	}
+
 }

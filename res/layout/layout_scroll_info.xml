@@ -5,7 +5,12 @@
     android:orientation="vertical" >
 
     
-    <include layout="@layout/layout_daily_forecast"/>
+    <cn.it.weatherforecast.widget.InnerListView
+        android:id="@+id/daily_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="120dp" >
+    </cn.it.weatherforecast.widget.InnerListView>
+
     
     <View 
         android:layout_width="match_parent"
@@ -36,7 +41,13 @@
          android:stretchMode="columnWidth"
          android:verticalSpacing="10dp" >
      </GridView>
-     
+     <View 
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff"/>
       <GridView
         android:id="@+id/second_grid_view"
         android:layout_width="match_parent"
@@ -48,16 +59,43 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" >
     </GridView>
-      <GridView
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff"/>
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="#bfbfbf"
+        android:text="生活建议"/>
+    
+    
+      <cn.it.weatherforecast.widget.MyGridView
         android:id="@+id/thrid_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnWidth="90dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" >
-    </GridView>
+    </cn.it.weatherforecast.widget.MyGridView>
     
+    
+      <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#bfbfbf"
+        android:layout_marginBottom="10dp"
+        android:text="数据来源：和风天气"/>
 </LinearLayout>
