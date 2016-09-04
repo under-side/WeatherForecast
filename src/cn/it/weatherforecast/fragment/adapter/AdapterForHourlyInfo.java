@@ -52,7 +52,7 @@ public class AdapterForHourlyInfo extends BaseAdapter {
 			//填充的对象名view来调用findViewById，找到的是填充布局中的组件
 			viewHolder.hourly_date=(TextView) view.findViewById(R.id.hourly_date);
 			viewHolder.hourly_pop=(TextView) view.findViewById(R.id.hourly_persent);
-			viewHolder.hourly_sc=(TextView) view.findViewById(R.id.hourly_flow);
+			viewHolder.hourly_dir=(TextView) view.findViewById(R.id.hourly_flow);
 			viewHolder.hourly_tmp=(TextView) view.findViewById(R.id.hourly_temperature);
 			//做一个标记以便条目复用,将声明的hold存储进去
 			view.setTag(viewHolder);
@@ -63,20 +63,13 @@ public class AdapterForHourlyInfo extends BaseAdapter {
 		}
 	    //开始设置组件内容
 	    viewHolder.hourly_date.setText(hourly.getDate());
-	    if(!hourly.getPop().equals("0"))
-	    {
-	    	viewHolder.hourly_pop.setText(hourly.getPop()+"%");
-	    }
-	    else
-	    {
-	    	viewHolder.hourly_pop.setText("");
-	    }
-	    viewHolder.hourly_sc.setText(hourly.getSc());
-	    viewHolder.hourly_tmp.setText(hourly.getTmp()+"°");
+	    viewHolder.hourly_pop.setText(hourly.getPop());
+	    viewHolder.hourly_dir.setText(hourly.getDir());
+	    viewHolder.hourly_tmp.setText(hourly.getTmp());
 		return view;
 	}
 }
 class ViewHolder
 {
-	TextView hourly_date,hourly_pop,hourly_sc,hourly_tmp;
+	TextView hourly_date,hourly_pop,hourly_dir,hourly_tmp;
 }

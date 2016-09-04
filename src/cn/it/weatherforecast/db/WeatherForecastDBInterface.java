@@ -3,6 +3,7 @@ package cn.it.weatherforecast.db;
 import java.util.List;
 
 import cn.it.weatherforecast.model.Areas;
+import cn.it.weatherforecast.model.SelectedAreas;
 
 /*
  * 该接口是为对SQLite数据进行操作的一个规范，只能使用定义的方法对其数据进行操作
@@ -21,4 +22,8 @@ public interface WeatherForecastDBInterface {
 	public List<Areas> loadAreas();
 	
 	public List<Areas> loadAreas(String s);
+	
+	public List<SelectedAreas> loadSelectedAreas();
+	
+	public void saveSelectedAreaCode(String code,String name);
 }

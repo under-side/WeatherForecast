@@ -1,13 +1,11 @@
 package cn.it.weatherforecast.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import cn.it.weatherforecast.R;
-import cn.it.weatherforecast.util.AsyncCallbackListenerForBitmap;
-import cn.it.weatherforecast.util.DownloadBitmapForImage;
-import cn.it.weatherforecast.util.LogUtil;
 import cn.it.weatherforecast.util.MyApplication;
+import cn.it.weatherforecast.util.Utility;
 
 public class WeatherInfoAfterFragment extends Fragment {
 
@@ -29,13 +25,12 @@ public class WeatherInfoAfterFragment extends Fragment {
 	
 	private static final String mPhtotURL = "http://files.heweather.com/cond_icon/";
 
-	private String mSelectCityId;
-	private Context mContext;
 	private LruCache<String, Bitmap> mMemoryCache;
-	public WeatherInfoAfterFragment(Context context, String selectCityId) {
-		mContext = context;
-		mSelectCityId = selectCityId;
+	SharedPreferences mSharedPreferences;
+	public WeatherInfoAfterFragment(SharedPreferences data) {
+		mSharedPreferences=data;
 	}
+	
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -50,15 +45,11 @@ public class WeatherInfoAfterFragment extends Fragment {
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.fragment_weatherinfo_after,
-				null);
+				container,false);
 
 		initComponent(view);
 
-		SharedPreferences data = mContext.getSharedPreferences("CN101310215",
-				Context.MODE_PRIVATE);
-//		SharedPreferences data = mContext.getSharedPreferences(mSelectCityId,
-//				Context.MODE_PRIVATE);
-		showDataView(data);
+		showDataView(mSharedPreferences);
 		
 		return view;
 	}
@@ -79,28 +70,7 @@ public class WeatherInfoAfterFragment extends Fragment {
 		}
 		//如果Cache中没有指定的Bitmap时，从网上获取资源，并将其存入Cache中，以备后面使用
 		else{
-			
-			DownloadBitmapForImage downloadImage = new DownloadBitmapForImage(
-					new AsyncCallbackListenerForBitmap() {
-						
-						@Override
-						public void onFinish(byte[] photo) {
-							// TODO Auto-generated method stub
-							
-							Bitmap imageBitmap = BitmapFactory.decodeByteArray(photo, 0,
-									photo.length);
-							mWeatherImage.setImageBitmap(imageBitmap);
-							
-							mMemoryCache.put(url, imageBitmap);
-						}
-						
-						@Override
-						public void onError(String errorMessage) {
-							// TODO Auto-generated method stub
-							LogUtil.d("WeatherInfoBeforeFragment", errorMessage);
-						}
-					});
-			downloadImage.execute(url);
+			Utility.setImageViewFromHttp(url, mWeatherImage);
 		}
 	}
 	 //将对日期进行分割的代码封装起来，可以重复使用

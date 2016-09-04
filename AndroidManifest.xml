@@ -9,22 +9,27 @@
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <application
         android:name="cn.it.weatherforecast.util.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_launch"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <!-- 选取指定城市activity -->
         <activity
             android:name=".activity.ChooseAreasActivity"
-            android:label="@string/title_activity_choose_areas" >
-            
+            android:label="@string/title_activity_choose_areas"
+            android:screenOrientation="portrait" >
+             <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.it.weatherforecast.activity.SelectAreasActivity"/>
         </activity>
-        
+        <!-- 指定城市的天气显示activity -->
         <activity
             android:name="cn.it.weatherforecast.activity.WeatherInfo"
-            android:label="@string/title_activity_weather_info" >
+            android:label="@string/title_activity_weather_info" 
+            android:screenOrientation="portrait">
             
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,11 +37,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- 城市天气信息中suggestion部分中的详细内容显示activity -->
         <activity 
             android:name="cn.it.weatherforecast.activity.SuggestionDetailActivity"
-            android:label="@string/title_activity_weather_info">
+            android:label="@string/title_activity_weather_suggestion"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             
-        </activity>"
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.it.weatherforecast.activity.WeatherInfo"/>
+        </activity>
+        
+        <!-- 显示所选城市的列表 -->
+        <activity android:name="cn.it.weatherforecast.activity.SelectAreasActivity"
+            android:label="@string/title_activity_select_city"
+            android:screenOrientation="portrait">
+            
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value="cn.it.weatherforecast.activity.WeatherInfo"/>
+        </activity>
+            
+        <service android:name="cn.it.weatherforecast.service.DownAreasService"></service>
     </application>
 
 </manifest>

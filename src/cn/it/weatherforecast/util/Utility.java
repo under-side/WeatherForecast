@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
@@ -51,8 +50,8 @@ public class Utility {
 		return false;
 	}
 
-	public static void handleWeatherInfoResponseByJSON(SharedPreferences data,
-			Context context, String json) {
+	public static boolean handleWeatherInfoResponseByJSON(SharedPreferences data,
+			 String json) {
 		try {
 			JSONObject heWeather = new JSONObject(json);
 			JSONArray heWeatherinfo = heWeather
@@ -79,10 +78,13 @@ public class Utility {
 
 				saveInfoSuggestion(data,
 						heWeatherDetail.getJSONObject("suggestion"));
+				
 			}
+			return true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -159,7 +161,7 @@ public class Utility {
 				editor.putString("hourly_pop" + i, info.getString("pop"));
 				editor.putString("hourly_tmp" + i, info.getString("tmp"));
 				JSONObject windObject=info.getJSONObject("wind");
-				editor.putString("hourly_sc"+i, windObject.getString("sc"));
+				editor.putString("hourly_dir"+i, windObject.getString("dir"));
 				editor.commit();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -317,7 +319,7 @@ public class Utility {
 		return splitDate[index];
 	}
 	//将从网上获取图片，并将其组件赋值操作封装起来，实现代码的重用性
-	public static void setImageViewFromHttp(String url, final ImageView weatherImage) {
+	public static void setImageViewFromHttp(final String url, final ImageView weatherImage) {
 		DownloadBitmapForImage downloadImage = new DownloadBitmapForImage(
 				new AsyncCallbackListenerForBitmap() {
 					
@@ -328,7 +330,7 @@ public class Utility {
 						Bitmap imageBitmap = BitmapFactory.decodeByteArray(photo, 0,
 								photo.length);
 						weatherImage.setImageBitmap(imageBitmap);
-						
+						putImageBitmapToCache(url, imageBitmap);
 					}
 					
 					@Override
@@ -339,5 +341,9 @@ public class Utility {
 				});
 		downloadImage.execute(url);
 	}
-
+//保存在网上下载的图片到缓存中去
+	private static  void putImageBitmapToCache(String url,Bitmap bitmap)
+	{
+		MyApplication.getLruCache().put(url, bitmap);
+	}
 }

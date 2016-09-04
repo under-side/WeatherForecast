@@ -2,12 +2,11 @@ package cn.it.weatherforecast.fragment;
 
 import java.util.ArrayList;
 
-import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import cn.it.weatherforecast.fragment.adapter.AdapterGridView1Info;
 import cn.it.weatherforecast.model.AdapterDailyInfoModel;
 import cn.it.weatherforecast.model.ModelForGrid1;
 import cn.it.weatherforecast.model.ModelForGrid2;
+import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
 import cn.it.weatherforecast.widget.InnerListView;
 
@@ -35,13 +35,10 @@ public class WeatherInfoScrollFragment extends Fragment {
 	private GridView mGridView1, mGridView2, mGridView3;
 	
     private ScrollView mScrollView;
-	private Context mContext;
-	private String mSelectCityId;
+    SharedPreferences mSharedPreferences;
 
-
-	public WeatherInfoScrollFragment(Context context, String id) {
-		mContext = context;
-		mSelectCityId = id;
+	public WeatherInfoScrollFragment(SharedPreferences data) {
+		mSharedPreferences=data;
 	}
 
 
@@ -53,11 +50,7 @@ public class WeatherInfoScrollFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_weather_scroll,
 				container,false);
 		initComponent(view);
-		SharedPreferences data = mContext.getSharedPreferences("CN101310215",
-				Context.MODE_PRIVATE);
-		// SharedPreferences data = mContext.getSharedPreferences(mSelectCityId,
-		// Context.MODE_PRIVATE);
-		showViewFromData(data);
+		showViewFromData(mSharedPreferences);
 		return view;
 	}
 
@@ -77,7 +70,6 @@ public class WeatherInfoScrollFragment extends Fragment {
 	
 
 	}
-
 	private void addOperationForGridView3(SharedPreferences data) {
 		ArrayList<ModelForGrid2> grid3List=new ArrayList<ModelForGrid2>();
         for(int i=0;i<6;i++)
@@ -103,6 +95,7 @@ public class WeatherInfoScrollFragment extends Fragment {
         		model.setId(R.drawable.travel);
         		model.setName("ÂÃÐÐÖ¸Êý");
         		model.setName_txt(data.getString("suggestion_trav", ""));
+        		model.setName_txt_detail(data.getString("suggestion_trav_txt", ""));
         		grid3List.add(model);
         		break;
         	case 3:
@@ -130,7 +123,7 @@ public class WeatherInfoScrollFragment extends Fragment {
         		break;
         	}
         	addDetailTxtActivityForGridView3(grid3List);
-        	BaseAdapter adapter=new AdapterForGridView2Info(mContext, grid3List);
+        	BaseAdapter adapter=new AdapterForGridView2Info(MyApplication.getContext(), grid3List);
         	mGridView3.setAdapter(adapter);
         }
 	}
@@ -142,7 +135,7 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 		public void onItemClick(AdapterView<?> arg0, View v, int positon,
 				long arg3) {
 			// TODO Auto-generated method stub
-			Intent intent=new Intent(mContext, SuggestionDetailActivity.class);
+			Intent intent=new Intent(MyApplication.getContext(), SuggestionDetailActivity.class);
 			ModelForGrid2 model=list.get(positon);
 			intent.putExtra("ClickItem", model);
 			startActivity(intent);
@@ -168,7 +161,7 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 			}
 			grid2List.add(model);
 		}
-		BaseAdapter adapter=new AdapterForGridView2Info(mContext,grid2List);
+		BaseAdapter adapter=new AdapterForGridView2Info(MyApplication.getContext(),grid2List);
 		mGridView2.setAdapter(adapter);
 	}
 
@@ -196,7 +189,7 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 			grid1List.add(model);
 			
 		}
-        BaseAdapter adapter=new AdapterGridView1Info(mContext, grid1List);
+        BaseAdapter adapter=new AdapterGridView1Info(MyApplication.getContext(), grid1List);
 		mGridView1.setAdapter(adapter);
 	}
 
@@ -228,7 +221,7 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 
 			dailyList.add(model);
 		}
-		BaseAdapter adapter = new AdapterForDailyInfo(mContext, dailyList);
+		BaseAdapter adapter = new AdapterForDailyInfo(MyApplication.getContext(), dailyList);
 		mDailyInfoList.setAdapter(adapter);
 	}
 

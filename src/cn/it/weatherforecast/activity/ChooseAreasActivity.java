@@ -5,12 +5,13 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,9 +23,10 @@ import android.widget.Toast;
 import cn.it.weatherforecast.R;
 import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.model.Areas;
+import cn.it.weatherforecast.util.ActivityCollector;
 import cn.it.weatherforecast.util.HttpCallbackListenerForJson;
 import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
-import cn.it.weatherforecast.util.LogUtil;
+import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
 
 public class ChooseAreasActivity extends Activity {
@@ -47,12 +49,11 @@ public class ChooseAreasActivity extends Activity {
 
 	private boolean isGetAreas = false;
 
-	private static final String mWeatherInfo = "https://api.heweather.com/x3/weather?cityid=";
-	private static final String mDeveloperId="&key=e880b41d75d840d7aaaad18356139993";
+	private String mSelectCityId;
+	private String mSelectCityName;
 
 	// 获取城市信息的URL
 	private static final String URL = "https://api.heweather.com/x3/citylist?search=allchina&key=e880b41d75d840d7aaaad18356139993";
-
 	// 为EditText设置TextWatcher，监听EditText输入的动作变化，进行操作
 	private TextWatcher mMyWatcher = new TextWatcher() {
 
@@ -107,7 +108,12 @@ public class ChooseAreasActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_areas);
-		LogUtil.LEVEL = LogUtil.DEBUG;
+		ActivityCollector.addActivity(this);
+		// 添加层级导航功能
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		}
 		initComponent();
 		mAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, mDataList);
@@ -115,37 +121,25 @@ public class ChooseAreasActivity extends Activity {
 
 		// 根据选择的Item来获取指定城市的天气信息
 		mAreaList.setOnItemClickListener(new OnItemClickListener() {
-
-			String selectCityId;
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Areas selectArea=mListArea.get(arg2);
-				selectCityId=selectArea.getCityId();
-				 String weatherInfoUrl=mWeatherInfo+selectCityId+mDeveloperId;
-				 final SharedPreferences data=getSharedPreferences(selectCityId,
-				 Context.MODE_PRIVATE);
-				 HttpUtilForDowloadJson.sendHttpRequest(weatherInfoUrl, new
-				 HttpCallbackListenerForJson() {
+				Areas selectArea = mListArea.get(arg2);
+				mSelectCityName = selectArea.getCityName();
+				mSelectCityId = selectArea.getCityId();
 				
-				 @Override
-				 public void onFinish(String response) {
-				 // TODO Auto-generated method stub
-				 Utility.handleWeatherInfoResponseByJSON(data,
-				 ChooseAreasActivity.this, response);
-				 }
+				// 在子线程中下载指定的城市天气信息
+				HttpUtilForDowloadJson.getWeatherInfoFromHttp(mSelectCityName,
+						mSelectCityId, ChooseAreasActivity.this);
 				
-				 @Override
-				 public void onError(Exception e) {
-				 // TODO Auto-generated method stub
-				 e.printStackTrace();
-				 }
-				 });
-				 Intent intent=new
-				 Intent(ChooseAreasActivity.this,WeatherInfo.class);
-				 intent.putExtra("select_city_id", selectCityId);
-				 startActivity(intent);
+				mDB.saveSelectedAreaCode(mSelectCityId,mSelectCityName);
+				
+				// 启动SelectedAreasActivity，并将数据传送给他
+				Intent intent = new Intent(ChooseAreasActivity.this,
+						SelectAreasActivity.class);
+				
+				startActivity(intent);
+				finish();
 			}
 		});
 
@@ -153,12 +147,17 @@ public class ChooseAreasActivity extends Activity {
 
 		queryAreas();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityCollector.removeActivity(this);
+	}
 
 	// 封装的方法，对组件进行初始化操作
 	public void initComponent() {
 		mAreaList = (ListView) findViewById(R.id.list_area);
-
-		mAreaList.setEmptyView(mEmptyText);
 
 		mEditText = (EditText) findViewById(R.id.edit_area);
 
@@ -167,7 +166,7 @@ public class ChooseAreasActivity extends Activity {
 	// 该方法用于查询SQLite中的城市信息，如果没有则从HTPP中获取，并将其保存到SQLite中
 	protected void queryAreas() {
 		// TODO Auto-generated method stub
-		mDB = WeatherForecastDB.getInstance(this);
+		mDB = MyApplication.getWeatherForecastDB();
 		mListArea = mDB.loadAreas();
 		if (mListArea.size() == 0) {
 			if (isGetAreas) {
@@ -193,7 +192,7 @@ public class ChooseAreasActivity extends Activity {
 
 		showProgressDialog();
 
-		HttpUtilForDowloadJson.sendHttpRequest(URL,
+		HttpUtilForDowloadJson.getAreasFromHttp(URL,
 				new HttpCallbackListenerForJson() {
 					boolean result = false;
 
@@ -249,6 +248,20 @@ public class ChooseAreasActivity extends Activity {
 	private void closeProgressDialog() {
 		if (mProgressDialog != null) {
 			mProgressDialog.dismiss();
+		}
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (NavUtils.getParentActivityName(this) != null) {
+				NavUtils.navigateUpFromSameTask(this);
+			}
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+
 		}
 	}
 }

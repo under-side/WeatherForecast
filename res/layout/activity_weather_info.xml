@@ -1,23 +1,27 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#27a5f9"
+    android:background="#484E61"
     android:orientation="vertical" >
-
-    <!-- add button layout -->
-
-    <include layout="@layout/layout_button" />
 
     <!-- there is weather info layout -->
 
-    <RelativeLayout
-        android:id="@+id/layout_for_fragment_now"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/weather_info_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <RelativeLayout
-        android:id="@+id/layout_for_fragment_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" >
+    </android.support.v4.view.ViewPager>
+    
+    <Button 
+        android:id="@+id/weatherinfo_add_city"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/home"/>
+    
+</RelativeLayout>

@@ -16,6 +16,13 @@ public class WeatherForecastDBOpenHelper extends SQLiteOpenHelper {
 			+ "city_id text,"
 			+ "city_lat  text,"
 			+ "city_lon  text)";
+	
+	//Ω®±Ì”Ôæ‰
+	private static final String CREATE_SELECT_AREA = "create table SelectedAreas("
+			+ "id integer primary key autoincrement," 
+			+ "select_area_name text,"
+			+ "select_area_code  text)";
+	
 
 	public WeatherForecastDBOpenHelper(Context context, String name,
 			CursorFactory factory, int version) {
@@ -27,6 +34,7 @@ public class WeatherForecastDBOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_CITY);
+		db.execSQL(CREATE_SELECT_AREA);
 	}
 
 	@Override

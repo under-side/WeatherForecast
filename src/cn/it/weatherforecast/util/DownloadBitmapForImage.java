@@ -1,7 +1,10 @@
 package cn.it.weatherforecast.util;
 
 import android.os.AsyncTask;
-
+/*
+ * 使用AsyncTask来下载获取网上图片。
+ * 达到异步消息处理的机制，可以跳转到主线程中更新UI。
+ */
 public class DownloadBitmapForImage extends AsyncTask<String, Integer, byte[]> {
 
 	AsyncCallbackListenerForBitmap mCallbackListener;
