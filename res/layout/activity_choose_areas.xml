@@ -14,7 +14,13 @@
       android:layout_height="wrap_content"
       android:hint="@string/edit_area"/>
   
-<RelativeLayout 
+  <TextView android:id="@+id/empty_text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:text="no data find"/>
+  
+    <RelativeLayout 
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

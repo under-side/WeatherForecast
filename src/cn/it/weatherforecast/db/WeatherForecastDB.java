@@ -154,5 +154,11 @@ public class WeatherForecastDB implements WeatherForecastDBInterface {
 		}
 
 	}
+   //删除指定的城市
+	@Override
+	public void deleteSelectedAreas(String selectId) {
+		// TODO Auto-generated method stub
+		mDB.delete("SelectedAreas","select_area_code=?" , new String[]{selectId});
+	}
 
 }

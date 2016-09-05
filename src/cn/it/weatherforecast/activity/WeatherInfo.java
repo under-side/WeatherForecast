@@ -24,7 +24,7 @@ import cn.it.weatherforecast.util.ActivityCollector;
 import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
 
-public class WeatherInfo extends FragmentActivity implements OnClickListener {
+public class WeatherInfo extends FragmentActivity{
 
 
 	private Button mSelectAreasButton;
@@ -60,7 +60,16 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 
 		mSelectAreasButton = (Button) findViewById(R.id.weatherinfo_add_city);
-		mSelectAreasButton.setOnClickListener(this);
+		mSelectAreasButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent i = new Intent(WeatherInfo.this, SelectAreasActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+			}
+		});
 
 		initViewPager();
 	}
@@ -79,15 +88,18 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 			mSelectCityFragment.add(emptyFragment);
 			mSelectAreasButton.setVisibility(View.INVISIBLE);
 		} else {
+			//獲取其他活動通過Intent傳送過來的數據
+			String codeFromDialog=getIntent().getStringExtra(FROM_DIALOG);
+			String codeFromSelectedArea=getIntent().getStringExtra(FROM_SELECTED_AREA);
+			
 			//从SQLite中获取所选中的城市，添加到ViewPager
 			for (int i=0;i<selectedAreas.size();i++) 
 			{
 				SelectedAreas model=selectedAreas.get(i);
 				String selectedCode=model.getSelectedCode();
-				String codeFromDialog=getIntent().getStringExtra(FROM_DIALOG);
-				String codeFromSelectedArea=getIntent().getStringExtra(FROM_SELECTED_AREA);
 				
-				if(codeFromDialog!=""||codeFromSelectedArea!="")
+				
+				if(codeFromDialog!=null||codeFromSelectedArea!=null)
 				{
 					if(selectedCode.equals(codeFromDialog))
 					{
@@ -97,8 +109,6 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 					{
 						mCurrentIndex=i;
 					}
-					else
-						mCurrentIndex=0;
 				}
 				mSelectCityFragment.add(new WeatherInfoFragment(this, selectedCode));
 			}
@@ -133,7 +143,6 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 		getIntent().putExtras(intent);
 	    }
 	 */
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -151,6 +160,8 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 					mCurrentCityId, WeatherInfo.this);
 			Intent i = new Intent(this, WeatherInfo.class);
 			startActivity(i);
+			//銷毀當前的額activity，然後自己調用自己，在開啟重新加載
+			finish();
 			break;
 		default:
 			break;
@@ -158,16 +169,4 @@ public class WeatherInfo extends FragmentActivity implements OnClickListener {
 		return true;
 	}
 
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		switch (v.getId()) {
-		case R.id.weatherinfo_add_city:
-			Intent i = new Intent(this, SelectAreasActivity.class);
-			startActivity(i);
-			break;
-		default:
-			break;
-		}
-	}
 }

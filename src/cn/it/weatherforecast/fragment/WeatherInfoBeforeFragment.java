@@ -1,9 +1,7 @@
 package cn.it.weatherforecast.fragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -16,13 +14,9 @@ import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 import cn.it.weatherforecast.R;
-import cn.it.weatherforecast.fragment.adapter.AdapterForHourlyInfo;
-import cn.it.weatherforecast.model.AdapterHourlyInfoModel;
 import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
 
@@ -36,7 +30,7 @@ public class WeatherInfoBeforeFragment extends Fragment {
 	private TextView mWeatherTemperture;
 	private TextView mWeekTxt;
 	private TextView mTopTemperture, mLowTemperture;
-	private GridView mHorizontalGridViewForHourly;
+
 	private LruCache<String, Bitmap> mMemoryCache;
 
 	private static final String mPhtotURL = "http://files.heweather.com/cond_icon/";
@@ -96,45 +90,9 @@ public class WeatherInfoBeforeFragment extends Fragment {
 			//如果Cache中没有指定的Bitmap时，从网上获取资源，并将其存入Cache中，以备后面使用
 			Utility.setImageViewFromHttp(url, mWeatherImage);
 		}
-		// 对ListView进行操作逻辑编写
-		addOperationToList(data);
 	}
 
-	// 对ListView添加逻辑操作，对其进行赋值
-	private void addOperationToList(SharedPreferences data) {
-
-		// 获取小时天气预报的数据，将其存入到链表中，作为Adapter中的底层数据来源
-		List<AdapterHourlyInfoModel> hourlyList = new ArrayList<AdapterHourlyInfoModel>();
-		String date = "hourly_date";
-		String pop = "hourly_pop";
-		String dir = "hourly_dir";
-		String tmp = "hourly_tmp";
-		// 通過sharedPreference中獲取數據，為ListView獲取數據
-		for (int i = 0; i <5 ; i++) {
-			String hourly_date = date + i;
-			String hourly_pop = pop + i;
-			String hourly_dir = dir + i;
-			String hourly_tmp = tmp + i;
-			String time = data.getString(hourly_date, "");
-			AdapterHourlyInfoModel model = new AdapterHourlyInfoModel();
-			if(i>=data.getInt("hourly_count", 0))
-			{
-				model.setPop("无\n数\n据");
-				hourlyList.add(model);
-			}
-			else
-			{
-				model.setDate(Utility.splitDateString(time, 1));
-				model.setPop(data.getString(hourly_pop, "")+"%");
-				model.setDir(data.getString(hourly_dir, ""));
-				model.setTmp(data.getString(hourly_tmp, "")+"°");
-				hourlyList.add(model);
-			}
-		}
-		ListAdapter adapter = new AdapterForHourlyInfo(hourlyList, MyApplication.getContext());
-		mHorizontalGridViewForHourly.setAdapter(adapter);
-	}
-
+	
 	// 初始化各个组件
 	private void initComponent(View v) {
 		// TODO Auto-generated method stub
@@ -148,9 +106,7 @@ public class WeatherInfoBeforeFragment extends Fragment {
 		mWeekTxt = (TextView) v.findViewById(R.id.week_data);
 		mTopTemperture = (TextView) v.findViewById(R.id.top_temperature);
 		mLowTemperture = (TextView) v.findViewById(R.id.low_temperature);
-		mHorizontalGridViewForHourly = (GridView) v
-				.findViewById(R.id.horizontal_gridview_for_hourly);
-		mHorizontalGridViewForHourly.setVerticalScrollBarEnabled(false);
+		
 	}
 
 }

@@ -32,7 +32,6 @@ import cn.it.weatherforecast.util.MyApplication;
 public class SelectAreasActivity extends Activity {
 
 	private ListView mSelectAreasList;
-	private String mSelectId;
 	private Button mAddAreasButton;
 	private BaseAdapter adapter;
 	private WeatherForecastDB mDB;
@@ -46,13 +45,9 @@ public class SelectAreasActivity extends Activity {
 		setContentView(R.layout.activity_list_city);
 		ActivityCollector.addActivity(this);
 
-		// 添加层级导航功能
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		}
-
 		mSelectAreasList = (ListView) findViewById(R.id.select_city_list);
+		//取消ListView的垂直滑動條
+		mSelectAreasList.setVerticalScrollBarEnabled(false);
 		mAddAreasButton = (Button) findViewById(R.id.add_city);
 		mDB = MyApplication.getWeatherForecastDB();
 
@@ -60,7 +55,6 @@ public class SelectAreasActivity extends Activity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			if (NavUtils.getParentActivityName(this) != null) {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
-				// NavUtils.navigateUpFromSameTask(this);
 			}
 		}
 
@@ -77,8 +71,9 @@ public class SelectAreasActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(SelectAreasActivity.this,
 						ChooseAreasActivity.class);
-				startActivityForResult(intent, 0);
-				finish();
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				//finish();
 			}
 		});
 
@@ -94,6 +89,7 @@ public class SelectAreasActivity extends Activity {
 			ModelForSelectAreas model = new ModelForSelectAreas();
 			if (data.getString("status", "").equals("ok")) {
 				model.setName(data.getString("basic_city", ""));
+				model.setCode(data.getString("basic_id", ""));
 				model.setWeather(data.getString("now_txt", ""));
 				model.setTemp(data.getString("now_tmp", "") + "°");
 				mSelectAreas.add(model);
@@ -104,9 +100,12 @@ public class SelectAreasActivity extends Activity {
 				mSelectAreas.add(model);
 			}
 		}
+		
 		adapter = new AdapterForSelectAreas(mSelectAreas);
 		mSelectAreasList.setAdapter(adapter);
+		//每次activity创建获取数据，并刷新显示ListView
         adapter.notifyDataSetChanged();
+        
 		//设置ListView的item点击事件处理
 		mSelectAreasList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -116,8 +115,10 @@ public class SelectAreasActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(SelectAreasActivity.this,
 						WeatherInfo.class);
-				i.putExtra(WeatherInfo.FROM_SELECTED_AREA, mSelectId);
+				i.putExtra(WeatherInfo.FROM_SELECTED_AREA, mSelectAreas.get(position).getCode());
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
+				//finish();
 			}
 		});
 		
@@ -129,25 +130,15 @@ public class SelectAreasActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				//当长按item时，弹出dialog，进行操作
-				ItemDialog dialog=new ItemDialog(SelectAreasActivity.this, mSelectId);
-				//运用代码取出标题栏
+				ItemDialog dialog=new ItemDialog(SelectAreasActivity.this, mSelectAreas.get(position).getCode());
+				//运用代码取消dialog中的标题栏
 				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				dialog.show();
-				//Toast.makeText(SelectAreasActivity.this, "press long time"+position, Toast.LENGTH_LONG).show();
+				
 				return true;
 			}
 		});
 	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
-
-		super.onNewIntent(intent);
-		setIntent(intent);
-		getIntent().putExtras(intent);
-	}
-
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

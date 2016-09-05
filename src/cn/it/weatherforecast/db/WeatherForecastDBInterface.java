@@ -26,4 +26,6 @@ public interface WeatherForecastDBInterface {
 	public List<SelectedAreas> loadSelectedAreas();
 	
 	public void saveSelectedAreaCode(String code,String name);
+	
+	public void deleteSelectedAreas(String selectId);
 }

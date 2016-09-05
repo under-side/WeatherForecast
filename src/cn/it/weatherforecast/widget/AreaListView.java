@@ -8,6 +8,7 @@ import android.widget.ListView;
 //该类为自定义ListView，用于设置Listview空界面
 public class AreaListView extends ListView {
 
+	
 	public AreaListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
@@ -23,6 +24,7 @@ public class AreaListView extends ListView {
 	@Override
 	public void setEmptyView(View emptyView) {
 		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -2,7 +2,15 @@ package cn.it.weatherforecast.model;
 
 public class ModelForSelectAreas {
 
-	private String name,weather,temp;
+	private String name,weather,temp,code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public String getName() {
 		return name;

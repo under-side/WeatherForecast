@@ -1,6 +1,7 @@
 package cn.it.weatherforecast.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,14 +15,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ListAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cn.it.weatherforecast.R;
 import cn.it.weatherforecast.activity.SuggestionDetailActivity;
 import cn.it.weatherforecast.fragment.adapter.AdapterForDailyInfo;
 import cn.it.weatherforecast.fragment.adapter.AdapterForGridView2Info;
+import cn.it.weatherforecast.fragment.adapter.AdapterForHourlyInfo;
 import cn.it.weatherforecast.fragment.adapter.AdapterGridView1Info;
 import cn.it.weatherforecast.model.AdapterDailyInfoModel;
+import cn.it.weatherforecast.model.AdapterHourlyInfoModel;
 import cn.it.weatherforecast.model.ModelForGrid1;
 import cn.it.weatherforecast.model.ModelForGrid2;
 import cn.it.weatherforecast.util.MyApplication;
@@ -33,7 +37,7 @@ public class WeatherInfoScrollFragment extends Fragment {
 	private InnerListView mDailyInfoList;
 	private TextView mWeatherDescribe;
 	private GridView mGridView1, mGridView2, mGridView3;
-	
+	private GridView mHorizontalGridViewForHourly;
     private ScrollView mScrollView;
     SharedPreferences mSharedPreferences;
 
@@ -60,6 +64,8 @@ public class WeatherInfoScrollFragment extends Fragment {
 		mWeatherDescribe.setText("今天："
 				+ data.getString("suggestion_comf_txt", ""));
 
+		addOperationToList(data);
+		
 		addOperationForDailyList(data);
 
 		addOperationForGridView1(data);
@@ -70,6 +76,41 @@ public class WeatherInfoScrollFragment extends Fragment {
 	
 
 	}
+	// 对ListView添加逻辑操作，对其进行赋值
+		private void addOperationToList(SharedPreferences data) {
+
+			// 获取小时天气预报的数据，将其存入到链表中，作为Adapter中的底层数据来源
+			List<AdapterHourlyInfoModel> hourlyList = new ArrayList<AdapterHourlyInfoModel>();
+			String date = "hourly_date";
+			String pop = "hourly_pop";
+			String dir = "hourly_dir";
+			String tmp = "hourly_tmp";
+			// 通過sharedPreference中獲取數據，為ListView獲取數據
+			for (int i = 0; i <5 ; i++) {
+				String hourly_date = date + i;
+				String hourly_pop = pop + i;
+				String hourly_dir = dir + i;
+				String hourly_tmp = tmp + i;
+				String time = data.getString(hourly_date, "");
+				AdapterHourlyInfoModel model = new AdapterHourlyInfoModel();
+				if(i>=data.getInt("hourly_count", 0))
+				{
+					model.setPop("无\n数\n据");
+					hourlyList.add(model);
+				}
+				else
+				{
+					model.setDate(Utility.splitDateString(time, 1));
+					model.setPop(data.getString(hourly_pop, "")+"%");
+					model.setDir(data.getString(hourly_dir, ""));
+					model.setTmp(data.getString(hourly_tmp, "")+"°");
+					hourlyList.add(model);
+				}
+			}
+			ListAdapter adapter = new AdapterForHourlyInfo(hourlyList, MyApplication.getContext());
+			mHorizontalGridViewForHourly.setAdapter(adapter);
+		}
+
 	private void addOperationForGridView3(SharedPreferences data) {
 		ArrayList<ModelForGrid2> grid3List=new ArrayList<ModelForGrid2>();
         for(int i=0;i<6;i++)
@@ -127,6 +168,8 @@ public class WeatherInfoScrollFragment extends Fragment {
         	mGridView3.setAdapter(adapter);
         }
 	}
+	
+	//設置GridView3的item的點擊事件處理
 private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> list)
 {
 	mGridView3.setOnItemClickListener(new OnItemClickListener() {
@@ -136,6 +179,7 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 				long arg3) {
 			// TODO Auto-generated method stub
 			Intent intent=new Intent(MyApplication.getContext(), SuggestionDetailActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			ModelForGrid2 model=list.get(positon);
 			intent.putExtra("ClickItem", model);
 			startActivity(intent);
@@ -235,5 +279,8 @@ private void addDetailTxtActivityForGridView3(final ArrayList<ModelForGrid2> lis
 		mGridView3 = (GridView) v.findViewById(R.id.thrid_grid_view);
 		mScrollView=(ScrollView) v.findViewById(R.id.weather_info_scroll);
 		mScrollView.setVerticalScrollBarEnabled(false);
+		mHorizontalGridViewForHourly = (GridView) v
+				.findViewById(R.id.horizontal_gridview_for_hourly);
+		mHorizontalGridViewForHourly.setVerticalScrollBarEnabled(false);
 	}
 }
