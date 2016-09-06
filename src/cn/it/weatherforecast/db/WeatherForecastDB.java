@@ -78,6 +78,7 @@ public class WeatherForecastDB implements WeatherForecastDBInterface {
 		return null;
 	}
 
+	// 运用模糊查询，在SQLite中查询符合条件的城市名称
 	@Override
 	public List<Areas> loadAreas(String s) {
 		// TODO Auto-generated method stub
@@ -128,11 +129,14 @@ public class WeatherForecastDB implements WeatherForecastDBInterface {
 					do {
 						String areaCode = cursor.getString(cursor
 								.getColumnIndex("select_area_code"));
-						String areaName=cursor.getString(cursor
+						String areaName = cursor.getString(cursor
 								.getColumnIndex("select_area_name"));
-						SelectedAreas model=new SelectedAreas();
+						long areaUpdateTime=cursor
+								.getLong(cursor.getColumnIndex("select_area_update_time"));
+						SelectedAreas model = new SelectedAreas();
 						model.setSelectedCode(areaCode);
 						model.setSelectedName(areaName);
+						model.setUpdateTime(areaUpdateTime);
 						selectedAreasList.add(model);
 					} while (cursor.moveToNext());
 				}
@@ -142,23 +146,35 @@ public class WeatherForecastDB implements WeatherForecastDBInterface {
 		}
 		return null;
 	}
-    //保存选择的城市代码
+
+	// 保存选择的城市代码
 	@Override
-	public void saveSelectedAreaCode(String code,String name) {
+	public void saveSelectedAreasInfo(String code, String name, long updateTime) {
 		// TODO Auto-generated method stub
 		if (mDB != null) {
 			ContentValues values = new ContentValues();
 			values.put("select_area_code", code);
 			values.put("select_area_name", name);
+			values.put("select_area_update_time", updateTime);
 			mDB.insert("SelectedAreas", null, values);
 		}
 
 	}
-   //删除指定的城市
+
+	// 删除指定的城市
 	@Override
 	public void deleteSelectedAreas(String selectId) {
 		// TODO Auto-generated method stub
-		mDB.delete("SelectedAreas","select_area_code=?" , new String[]{selectId});
+		mDB.delete("SelectedAreas", "select_area_code=?",
+				new String[] { selectId });
+	}
+
+	@Override
+	public void updateSelectedAreasTime(String updateCode, long updateTime) {
+		// TODO Auto-generated method stub
+		ContentValues values=new ContentValues();
+		values.put("select_area_update_time", updateTime);
+		mDB.update("SelectedAreas", values, "select_area_code=?", new String[] { updateCode });
 	}
 
 }

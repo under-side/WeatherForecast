@@ -2,7 +2,7 @@ package cn.it.weatherforecast.model;
 
 public class ModelForSelectAreas {
 
-	private String name,weather,temp,code;
+	private String name, weather, temp, code;
 
 	public String getCode() {
 		return code;

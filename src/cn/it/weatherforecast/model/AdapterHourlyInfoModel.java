@@ -2,7 +2,7 @@ package cn.it.weatherforecast.model;
 
 public class AdapterHourlyInfoModel {
 
-	private String date,pop,tmp,dir;
+	private String date, pop, tmp, dir;
 
 	public String getDate() {
 		return date;
@@ -36,5 +36,4 @@ public class AdapterHourlyInfoModel {
 		this.dir = dir;
 	}
 
-	
 }

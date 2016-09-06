@@ -14,28 +14,30 @@ public class DownAreasService extends Service {
 	// 获取城市信息的URL
 	private static final String URL = "https://api.heweather.com/x3/citylist?search=allchina&key=e880b41d75d840d7aaaad18356139993";
 	private WeatherForecastDB mDB;
-	
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-@Override
-public void onCreate() {
-	// TODO Auto-generated method stub
-	super.onCreate();
-}
+
+	@Override
+	public void onCreate() {
+		// TODO Auto-generated method stub
+		super.onCreate();
+	}
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		// TODO Auto-generated method stub
-		mDB=MyApplication.getWeatherForecastDB();
+		mDB = MyApplication.getWeatherForecastDB();
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				downloadAreas();
-				
+
 				stopSelf();
 
 			}
@@ -43,18 +45,16 @@ public void onCreate() {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-
 	// 运用封装的HTTP服务，从网上获取城市的信息
 	private void downloadAreas() {
 		// TODO Auto-generated method stub
-		HttpUtilForDowloadJson.getAreasFromHttp(URL,
+		HttpUtilForDowloadJson.getJsonFromHttp(URL,
 				new HttpCallbackListenerForJson() {
-					
 
 					@Override
 					public void onFinish(String response) {
 						// TODO Auto-generated method stub
-						Utility.handleResponseByJSON(mDB, response);
+						Utility.handleJsonForDBAreas(mDB, response);
 					}
 
 					@Override

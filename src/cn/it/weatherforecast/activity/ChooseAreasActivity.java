@@ -1,6 +1,7 @@
 package cn.it.weatherforecast.activity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -25,7 +26,6 @@ import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.model.Areas;
 import cn.it.weatherforecast.model.SelectedAreas;
 import cn.it.weatherforecast.util.ActivityCollector;
-import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
 
 public class ChooseAreasActivity extends Activity {
@@ -49,8 +49,8 @@ public class ChooseAreasActivity extends Activity {
 	private String mSelectCityId;
 
 	private String mSelectCityName;
-	
-	private boolean isHaveCity=false;
+
+	private boolean isHaveCity = false;
 
 	// 为EditText设置TextWatcher，监听EditText输入的动作变化，进行操作
 	private TextWatcher mMyWatcher = new TextWatcher() {
@@ -132,9 +132,9 @@ public class ChooseAreasActivity extends Activity {
 				mSelectCityName = selectArea.getCityName();
 				mSelectCityId = selectArea.getCityId();
 
-				// 在子线程中下载指定的城市天气信息
-				HttpUtilForDowloadJson.getWeatherInfoFromHttp(mSelectCityName,
-						mSelectCityId, ChooseAreasActivity.this);
+				// // 在子线程中下载指定的城市天气信息
+				// HttpUtilForDowloadJson.getWeatherInfoFromHttp(mSelectCityName,
+				// mSelectCityId, ChooseAreasActivity.this);
 				List<SelectedAreas> areas = mDB.loadSelectedAreas();
 				/*
 				 * 将点击所选的并且在SQLite中没有的item的信息存放在SQLite中，标识为所选城市。
@@ -142,36 +142,37 @@ public class ChooseAreasActivity extends Activity {
 				 */
 				if (areas.size() == 0) {
 					// 添加到SQLite中
-					mDB.saveSelectedAreaCode(mSelectCityId, mSelectCityName);
+					mDB.saveSelectedAreasInfo(mSelectCityId, mSelectCityName,
+							(new Date()).getTime());
 				} else {
 					for (SelectedAreas selectedAreas : areas) {
 						if (selectedAreas.getSelectedCode().equals(
 								mSelectCityId)) {
-							isHaveCity=true;
+							isHaveCity = true;
 							Toast.makeText(ChooseAreasActivity.this,
 									"已经存在所选城市", Toast.LENGTH_SHORT).show();
-						} 
+						}
 					}
-					if(!isHaveCity)
-					{
+					if (!isHaveCity) {
 						// 添加到SQLite中
-						mDB.saveSelectedAreaCode(mSelectCityId,
-								mSelectCityName);
+						mDB.saveSelectedAreasInfo(mSelectCityId,
+								mSelectCityName, (new Date()).getTime());
 					}
 				}
 				// 启动SelectedAreasActivity，并将数据传送给他
 				Intent intent = new Intent(ChooseAreasActivity.this,
 						SelectAreasActivity.class);
-           
-			    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				// 当该活动去开启另一个活动时，调用finish方法，使其自结束，避免了开启多个activity
-				//finish();
+				// finish();
 			}
 		});
 
+		// 向組件EditText添加輸入監聽器，監聽輸入欄中的狀態變化
 		mEditText.addTextChangedListener(mMyWatcher);
-
+		// 查詢SQLite中的數據，并顯示出來
 		queryAreas();
 	}
 
@@ -202,18 +203,22 @@ public class ChooseAreasActivity extends Activity {
 		 * 中出现混乱，则通过一个while循环去判断是否存入SQLite中去。如果没有存入中，则将会出现一个ProgressDialog
 		 * 提示数据正在下载中，当有数据了，则开始获取数据，并显示在ListView中。
 		 */
-		//在while循环中判断，确保只有一次showProgress方法被执行了
-		boolean flag=true;
-		while ((mDB.loadAreas()).size() == 0) {
-			if(flag)
-			{
-				showProgressDialog();
-				flag=false;
+		showProgressDialog();
+
+		// 在while循环中判断，确保只有一次showProgress方法被执行了
+		while (true) {
+			/*
+			 * 在死循環中等待後台服務下載城市地址并存入SQLite中,
+			 * 反復從SQLite中獲取ListAreas的值，判斷如果>0則有值了，退出循環.
+			 */
+			mListArea = mDB.loadAreas();
+			if (mListArea.size() > 0) {
+				closeProgressDialog();
+				break;
 			}
 		}
-		closeProgressDialog();
-		mListArea = mDB.loadAreas();
 
+		// 获取数据并赋值给ListView中的adapter
 		mDataList.clear();
 
 		for (Areas areas : mListArea) {
@@ -241,6 +246,7 @@ public class ChooseAreasActivity extends Activity {
 		}
 	}
 
+	// 添加导航栏中的逻辑操作
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub

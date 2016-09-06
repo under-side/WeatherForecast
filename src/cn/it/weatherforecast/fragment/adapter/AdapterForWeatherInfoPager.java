@@ -9,9 +9,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class AdapterForWeatherInfoPager extends FragmentPagerAdapter {
 
 	List<Fragment> mSelectedCityFragment;
-	public AdapterForWeatherInfoPager(FragmentManager fm,List<Fragment>list) {
+
+	public AdapterForWeatherInfoPager(FragmentManager fm, List<Fragment> list) {
 		super(fm);
-		mSelectedCityFragment=list;
+		mSelectedCityFragment = list;
 	}
 
 	@Override

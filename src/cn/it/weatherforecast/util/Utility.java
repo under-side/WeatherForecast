@@ -25,7 +25,7 @@ import cn.it.weatherforecast.model.Areas;
  */
 public class Utility {
 
-	public static boolean handleResponseByJSON(WeatherForecastDB db, String json) {
+	public static boolean handleJsonForDBAreas(WeatherForecastDB db, String json) {
 		List<Areas> areas = new ArrayList<Areas>();
 		try {
 			JSONObject cityinfoJSON = new JSONObject(json);
@@ -50,8 +50,8 @@ public class Utility {
 		return false;
 	}
 
-	public static boolean handleWeatherInfoResponseByJSON(SharedPreferences data,
-			 String json) {
+	public static boolean handleWeatherInfoResponseByJSON(
+			SharedPreferences data, String json) {
 		try {
 			JSONObject heWeather = new JSONObject(json);
 			JSONArray heWeatherinfo = heWeather
@@ -59,8 +59,7 @@ public class Utility {
 			for (int i = 0; i < heWeatherinfo.length(); i++) {
 				JSONObject heWeatherDetail = heWeatherinfo.getJSONObject(i);
 
-				if(heWeatherDetail.getJSONObject("aqi")!=null)
-				{
+				if (heWeatherDetail.getJSONObject("aqi") != null) {
 					saveInfoAqi(data, heWeatherDetail.getJSONObject("aqi"));
 				}
 
@@ -78,7 +77,7 @@ public class Utility {
 
 				saveInfoSuggestion(data,
 						heWeatherDetail.getJSONObject("suggestion"));
-				
+
 			}
 			return true;
 		} catch (JSONException e) {
@@ -99,27 +98,27 @@ public class Utility {
 
 			JSONObject cwObject = jsonObject.getJSONObject("cw");
 			String cwBrf = cwObject.getString("brf");
-			String cwTxt =cwObject.getString("txt");
+			String cwTxt = cwObject.getString("txt");
 
 			JSONObject drsgObject = jsonObject.getJSONObject("drsg");
 			String drsgBrf = drsgObject.getString("brf");
-			String drsgTxt=drsgObject.getString("txt");
+			String drsgTxt = drsgObject.getString("txt");
 
 			JSONObject fluObject = jsonObject.getJSONObject("flu");
 			String fluBrf = fluObject.getString("brf");
-			String fluTxt=fluObject.getString("txt");
+			String fluTxt = fluObject.getString("txt");
 
 			JSONObject sportObject = jsonObject.getJSONObject("sport");
 			String sportBrf = sportObject.getString("brf");
-			String sportTxt=sportObject.getString("txt");
+			String sportTxt = sportObject.getString("txt");
 
 			JSONObject travObject = jsonObject.getJSONObject("trav");
 			String travBrf = travObject.getString("brf");
-			String travTxt=travObject.getString("txt");
+			String travTxt = travObject.getString("txt");
 
 			JSONObject uvObject = jsonObject.getJSONObject("uv");
 			String uvBrf = uvObject.getString("brf");
-			String uvTxt=uvObject.getString("txt");
+			String uvTxt = uvObject.getString("txt");
 
 			editor.putString("suggestion_comf_brf", comfBrf);
 			editor.putString("suggestion_comf_txt", comfTxt);
@@ -160,8 +159,8 @@ public class Utility {
 				editor.putString("hourly_date" + i, info.getString("date"));
 				editor.putString("hourly_pop" + i, info.getString("pop"));
 				editor.putString("hourly_tmp" + i, info.getString("tmp"));
-				JSONObject windObject=info.getJSONObject("wind");
-				editor.putString("hourly_dir"+i, windObject.getString("dir"));
+				JSONObject windObject = info.getJSONObject("wind");
+				editor.putString("hourly_dir" + i, windObject.getString("dir"));
 				editor.commit();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -170,7 +169,8 @@ public class Utility {
 		}
 	}
 
-	private static void saveInfoNow(SharedPreferences data, JSONObject jsonObject) {
+	private static void saveInfoNow(SharedPreferences data,
+			JSONObject jsonObject) {
 		// TODO Auto-generated method stub
 
 		Editor editor = data.edit();
@@ -180,10 +180,10 @@ public class Utility {
 			String txt = codeObject.getString("txt");
 			String fl = jsonObject.getString("fl");
 			String tmp = jsonObject.getString("tmp");
-			JSONObject windObject=jsonObject.getJSONObject("wind");
-			String dir=windObject.getString("dir");
-			String sc=windObject.getString("sc");
-			String hum=jsonObject.getString("hum");
+			JSONObject windObject = jsonObject.getJSONObject("wind");
+			String dir = windObject.getString("dir");
+			String sc = windObject.getString("sc");
+			String hum = jsonObject.getString("hum");
 			editor.putString("now_code", code);
 			editor.putString("now_txt", txt);
 			editor.putString("now_fl", fl);
@@ -201,20 +201,19 @@ public class Utility {
 	private static void saveInfoDailyForecast(SharedPreferences data,
 			JSONArray jsonArray) {
 		// TODO Auto-generated method stub
-		
+
 		Editor editor = data.edit();
 		for (int i = 0; i < jsonArray.length(); i++) {
 			try {
 				JSONObject info = jsonArray.getJSONObject(i);
 
 				JSONObject astroObject = info.getJSONObject("astro");
-				//只保存第一个的天气日落和日出时间
-				if(i==1)
-				{
+				// 只保存第一个的天气日落和日出时间
+				if (i == 1) {
 					String sr = astroObject.getString("sr");
 					String ss = astroObject.getString("ss");
-					editor.putString("daily_sr"+i, sr);
-					editor.putString("daily_ss"+i, ss);
+					editor.putString("daily_sr" + i, sr);
+					editor.putString("daily_ss" + i, ss);
 				}
 
 				JSONObject condObject = info.getJSONObject("cond");
@@ -227,12 +226,12 @@ public class Utility {
 				String max = tmpObject.getString("max");
 				String min = tmpObject.getString("min");
 
-				editor.putString("daily_code_d"+i, code_d);
-				editor.putString("daily_txt_d"+i, txt_d);
-				editor.putString("daily_date"+i, date);
-				editor.putString("daily_max"+i, max);
-				editor.putString("daily_min"+i, min);
-				
+				editor.putString("daily_code_d" + i, code_d);
+				editor.putString("daily_txt_d" + i, txt_d);
+				editor.putString("daily_date" + i, date);
+				editor.putString("daily_max" + i, max);
+				editor.putString("daily_min" + i, min);
+
 				editor.commit();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -241,7 +240,8 @@ public class Utility {
 		}
 	}
 
-	private static void saveInfoBasic(SharedPreferences data, JSONObject jsonObject) {
+	private static void saveInfoBasic(SharedPreferences data,
+			JSONObject jsonObject) {
 		// TODO Auto-generated method stub
 		Editor editor = data.edit();
 		try {
@@ -264,7 +264,8 @@ public class Utility {
 	}
 
 	// save weather info of aqi
-	private static void saveInfoAqi(SharedPreferences data, JSONObject jsonObject) {
+	private static void saveInfoAqi(SharedPreferences data,
+			JSONObject jsonObject) {
 		// TODO Auto-generated method stub
 		try {
 			Editor editor = data.edit();
@@ -288,19 +289,18 @@ public class Utility {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static String getWeekFromDate(String d) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 		Date date;
 		try {
 			date = sdf.parse(d);
-			String[] weekOfDays = { "周末", "周一", "周二", "周三", "周四", "周五",
-					"周六" };
+			String[] weekOfDays = { "周末", "周一", "周二", "周三", "周四", "周五", "周六" };
 			Calendar calendar = Calendar.getInstance();
 			if (date != null) {
 				calendar.setTime(date);
 			}
-			int w = calendar.get(Calendar.DAY_OF_WEEK)-1;
+			int w = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 			if (w < 0) {
 				w = 0;
 			}
@@ -311,28 +311,29 @@ public class Utility {
 		}
 		return null;
 	}
-	
-    //将对日期进行分割的代码封装起来，可以重复使用
-	public static String splitDateString(String time,int index)
-	{
+
+	// 将对日期进行分割的代码封装起来，可以重复使用
+	public static String splitDateString(String time, int index) {
 		String[] splitDate = time.split(" ");
 		return splitDate[index];
 	}
-	//将从网上获取图片，并将其组件赋值操作封装起来，实现代码的重用性
-	public static void setImageViewFromHttp(final String url, final ImageView weatherImage) {
+
+	// 将从网上获取图片，并将其组件赋值操作封装起来，实现代码的重用性
+	public static void setImageViewFromHttp(final String url,
+			final ImageView weatherImage) {
 		DownloadBitmapForImage downloadImage = new DownloadBitmapForImage(
 				new AsyncCallbackListenerForBitmap() {
-					
+
 					@Override
 					public void onFinish(byte[] photo) {
 						// TODO Auto-generated method stub
-						
-						Bitmap imageBitmap = BitmapFactory.decodeByteArray(photo, 0,
-								photo.length);
+
+						Bitmap imageBitmap = BitmapFactory.decodeByteArray(
+								photo, 0, photo.length);
 						weatherImage.setImageBitmap(imageBitmap);
 						putImageBitmapToCache(url, imageBitmap);
 					}
-					
+
 					@Override
 					public void onError(String errorMessage) {
 						// TODO Auto-generated method stub
@@ -341,11 +342,10 @@ public class Utility {
 				});
 		downloadImage.execute(url);
 	}
-//保存在网上下载的图片到缓存中去
-	private static  void putImageBitmapToCache(String url,Bitmap bitmap)
-	{
+
+	// 保存在网上下载的图片到缓存中去
+	private static void putImageBitmapToCache(String url, Bitmap bitmap) {
 		MyApplication.getLruCache().put(url, bitmap);
 	}
-	
 
 }

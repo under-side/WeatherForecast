@@ -35,7 +35,8 @@ public class SelectAreasActivity extends Activity {
 	private Button mAddAreasButton;
 	private BaseAdapter adapter;
 	private WeatherForecastDB mDB;
-	private List<ModelForSelectAreas> mSelectAreas;
+	private List<SelectedAreas> mSelectedAreas;
+	private List<ModelForSelectAreas> mModelSelectedAreas;
 	private TextView mEmptyViewText;
 
 	@Override
@@ -44,10 +45,10 @@ public class SelectAreasActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_city);
 		ActivityCollector.addActivity(this);
-        mEmptyViewText=(TextView) findViewById(R.id.empty_for_selected_list);
+		mEmptyViewText = (TextView) findViewById(R.id.empty_for_selected_list);
 		mSelectAreasList = (ListView) findViewById(R.id.select_city_list);
 		mSelectAreasList.setEmptyView(mEmptyViewText);
-		//取消ListView的垂直滑動條
+		// 取消ListView的垂直滑動條
 		mSelectAreasList.setVerticalScrollBarEnabled(false);
 		mAddAreasButton = (Button) findViewById(R.id.add_city);
 		mDB = MyApplication.getWeatherForecastDB();
@@ -74,40 +75,40 @@ public class SelectAreasActivity extends Activity {
 						ChooseAreasActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				//finish();
+				// finish();
 			}
 		});
 
 		// 向ListView中添加操作
-		mSelectAreas = new ArrayList<ModelForSelectAreas>();
-		
+		mModelSelectedAreas = new ArrayList<ModelForSelectAreas>();
+
 		// 启动时去获取数据库中存储的所选的城市信息,并加载数据
-		List<SelectedAreas> selectedAreas = mDB.loadSelectedAreas();
-		for (int i=0;i<selectedAreas.size();i++) {
-			SelectedAreas selectedArea=selectedAreas.get(i);
-			SharedPreferences data = this.getSharedPreferences(selectedArea.getSelectedCode(),
-					Context.MODE_PRIVATE);
+		mSelectedAreas = mDB.loadSelectedAreas();
+		for (int i = 0; i < mSelectedAreas.size(); i++) {
+			SelectedAreas selectedArea = mSelectedAreas.get(i);
+			SharedPreferences data = this.getSharedPreferences(
+					selectedArea.getSelectedCode(), Context.MODE_PRIVATE);
 			ModelForSelectAreas model = new ModelForSelectAreas();
 			if (data.getString("status", "").equals("ok")) {
 				model.setName(data.getString("basic_city", ""));
 				model.setCode(data.getString("basic_id", ""));
 				model.setWeather(data.getString("now_txt", ""));
 				model.setTemp(data.getString("now_tmp", "") + "°");
-				mSelectAreas.add(model);
+				mModelSelectedAreas.add(model);
 			} else {
 				model.setName(selectedArea.getSelectedName());
 				model.setWeather("无数据");
 				model.setTemp("N/A°");
-				mSelectAreas.add(model);
+				mModelSelectedAreas.add(model);
 			}
 		}
-		
-		adapter = new AdapterForSelectAreas(mSelectAreas);
+
+		adapter = new AdapterForSelectAreas(mModelSelectedAreas);
 		mSelectAreasList.setAdapter(adapter);
-		//每次activity创建获取数据，并刷新显示ListView
-        adapter.notifyDataSetChanged();
-        
-		//设置ListView的item点击事件处理
+		// 每次activity创建获取数据，并刷新显示ListView
+		adapter.notifyDataSetChanged();
+
+		// 设置ListView的item点击事件处理
 		mSelectAreasList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -116,29 +117,33 @@ public class SelectAreasActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(SelectAreasActivity.this,
 						WeatherInfo.class);
-				i.putExtra(WeatherInfo.FROM_SELECTED_AREA, mSelectAreas.get(position).getCode());
+				i.putExtra(WeatherInfo.FROM_SELECTED_AREA,
+						mSelectedAreas.get(position).getSelectedCode());
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
-				//finish();
+				// finish();
 			}
 		});
-		
-		//设置item长按删除处理
-		mSelectAreasList.setOnItemLongClickListener(new OnItemLongClickListener() {
 
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				//当长按item时，弹出dialog，进行操作
-				ItemDialog dialog=new ItemDialog(SelectAreasActivity.this, mSelectAreas.get(position).getCode());
-				//运用代码取消dialog中的标题栏
-				dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-				dialog.show();
-				
-				return true;
-			}
-		});
+		// 设置item长按删除处理
+		mSelectAreasList
+				.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+					@Override
+					public boolean onItemLongClick(AdapterView<?> parent,
+							View view, int position, long id) {
+						// TODO Auto-generated method stub
+						// 当长按item时，弹出dialog，进行操作
+						ItemDialog dialog = new ItemDialog(
+								SelectAreasActivity.this, mModelSelectedAreas
+										.get(position).getCode());
+						// 运用代码取消dialog中的标题栏
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.show();
+
+						return true;
+					}
+				});
 	}
 
 	@Override

@@ -16,16 +16,18 @@ import cn.it.weatherforecast.model.SelectedAreas;
  */
 
 public interface WeatherForecastDBInterface {
-	
+
 	public void saveAreas(List<Areas> areas);
-	
+
 	public List<Areas> loadAreas();
-	
+
 	public List<Areas> loadAreas(String s);
-	
+
 	public List<SelectedAreas> loadSelectedAreas();
-	
-	public void saveSelectedAreaCode(String code,String name);
-	
+
+	public void saveSelectedAreasInfo(String code, String name, long updateTime);
+
 	public void deleteSelectedAreas(String selectId);
+	
+	public void updateSelectedAreasTime(String updateCode,long updateTime);
 }

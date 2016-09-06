@@ -35,7 +35,7 @@ public class HttpDownloadUtil {
 			connection.setConnectTimeout(5000);
 			connection.setReadTimeout(5000);
 			connection.setRequestProperty("Accept-Language", "zh-CN");
-			
+
 			// 如果本次返回数据是有效的，则返回码为200
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 				// 直接获取正文部分对应的输入流

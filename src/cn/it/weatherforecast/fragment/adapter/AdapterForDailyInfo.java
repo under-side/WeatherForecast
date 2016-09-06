@@ -26,8 +26,8 @@ public class AdapterForDailyInfo extends BaseAdapter {
 			ArrayList<AdapterDailyInfoModel> dailyList) {
 		mContext = context;
 		mDailyInfo = dailyList;
-		
-		int maxSize = (int) (Runtime.getRuntime().maxMemory() / 1024)/8;
+
+		int maxSize = (int) (Runtime.getRuntime().maxMemory() / 1024) / 8;
 		mMemoryCache = new LruCache<String, Bitmap>(maxSize);
 	}
 
@@ -55,7 +55,8 @@ public class AdapterForDailyInfo extends BaseAdapter {
 		AdapterDailyInfoModel dailyData = mDailyInfo.get(position);
 		// 获取布局填充器的管理权
 		LayoutInflater inflater = LayoutInflater.from(mContext);
-		View view = inflater.inflate(R.layout.adapter_for_daily_info, container,false);
+		View view = inflater.inflate(R.layout.adapter_for_daily_info,
+				container, false);
 
 		DailyViewHolder viewHolder;
 		if (convertView == null) {

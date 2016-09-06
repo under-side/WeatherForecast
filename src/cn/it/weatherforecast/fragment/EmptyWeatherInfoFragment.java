@@ -14,20 +14,23 @@ import cn.it.weatherforecast.activity.SelectAreasActivity;
 import cn.it.weatherforecast.util.MyApplication;
 
 public class EmptyWeatherInfoFragment extends Fragment {
-	
+
 	private Button mSwitchToArea;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view=inflater.inflate(R.layout.fragment_for_empty_weather, container,false);
-		mSwitchToArea=(Button) view.findViewById(R.id.empty_switch_button);
+		View view = inflater.inflate(R.layout.fragment_for_empty_weather,
+				container, false);
+		mSwitchToArea = (Button) view.findViewById(R.id.empty_switch_button);
 		mSwitchToArea.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i=new Intent(MyApplication.getContext(),SelectAreasActivity.class);
+				Intent i = new Intent(MyApplication.getContext(),
+						SelectAreasActivity.class);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
 			}
