@@ -54,11 +54,17 @@ public class WeatherInfoScrollFragment extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_weather_scroll,
 				container,false);
 		initComponent(view);
-		showViewFromData(mSharedPreferences);
+		
 		return view;
 	}
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		showViewFromData(mSharedPreferences);
+	}
 
-	private void showViewFromData(SharedPreferences data) {
+    protected void showViewFromData(SharedPreferences data) {
 		// TODO Auto-generated method stub
 
 		mWeatherDescribe.setText("½ñÌì£º"

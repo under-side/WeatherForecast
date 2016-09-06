@@ -8,6 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     
+    <TextView 
+        android:id="@+id/empty_for_selected_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_centerInParent="true"
+        android:text="没有选择的城市"/>
+    
     <Button
         android:id="@+id/add_city"
         android:layout_width="50dp"

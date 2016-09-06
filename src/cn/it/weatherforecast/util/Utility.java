@@ -346,4 +346,6 @@ public class Utility {
 	{
 		MyApplication.getLruCache().put(url, bitmap);
 	}
+	
+
 }

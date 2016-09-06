@@ -143,9 +143,6 @@ public class ChooseAreasActivity extends Activity {
 				if (areas.size() == 0) {
 					// 添加到SQLite中
 					mDB.saveSelectedAreaCode(mSelectCityId, mSelectCityName);
-					Toast.makeText(ChooseAreasActivity.this,
-							mDB.loadSelectedAreas().size(), Toast.LENGTH_LONG)
-							.show();
 				} else {
 					for (SelectedAreas selectedAreas : areas) {
 						if (selectedAreas.getSelectedCode().equals(
@@ -205,8 +202,14 @@ public class ChooseAreasActivity extends Activity {
 		 * 中出现混乱，则通过一个while循环去判断是否存入SQLite中去。如果没有存入中，则将会出现一个ProgressDialog
 		 * 提示数据正在下载中，当有数据了，则开始获取数据，并显示在ListView中。
 		 */
+		//在while循环中判断，确保只有一次showProgress方法被执行了
+		boolean flag=true;
 		while ((mDB.loadAreas()).size() == 0) {
-			showProgressDialog();
+			if(flag)
+			{
+				showProgressDialog();
+				flag=false;
+			}
 		}
 		closeProgressDialog();
 		mListArea = mDB.loadAreas();
@@ -222,6 +225,7 @@ public class ChooseAreasActivity extends Activity {
 	// 当开启子线程，进行耗时操作时，打开一个进度条，进行人性化设计
 	private void showProgressDialog() {
 		// TODO Auto-generated method stub
+
 		if (mProgressDialog == null) {
 			mProgressDialog = new ProgressDialog(this);
 			mProgressDialog.setMessage("Loading...");

@@ -101,6 +101,7 @@ public class ItemDialog extends Dialog {
 								//加入判断是否存在该SharedPreference文件，存在则删除
 								if(data.getString("status", "").equals("ok"))
 								{
+									//清空指定code中的数据
 									Editor editor=data.edit();
 									editor.clear();
 									editor.commit();

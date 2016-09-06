@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +20,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import cn.it.weatherforecast.R;
 import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.fragment.adapter.AdapterForSelectAreas;
@@ -36,16 +36,17 @@ public class SelectAreasActivity extends Activity {
 	private BaseAdapter adapter;
 	private WeatherForecastDB mDB;
 	private List<ModelForSelectAreas> mSelectAreas;
+	private TextView mEmptyViewText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Log.d("1", "onCreate call");
 		setContentView(R.layout.activity_list_city);
 		ActivityCollector.addActivity(this);
-
+        mEmptyViewText=(TextView) findViewById(R.id.empty_for_selected_list);
 		mSelectAreasList = (ListView) findViewById(R.id.select_city_list);
+		mSelectAreasList.setEmptyView(mEmptyViewText);
 		//取消ListView的垂直滑動條
 		mSelectAreasList.setVerticalScrollBarEnabled(false);
 		mAddAreasButton = (Button) findViewById(R.id.add_city);

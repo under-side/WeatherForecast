@@ -14,6 +14,8 @@ public class MyApplication extends Application {
 	private static Context mContext;
 	private static LruCache<String , Bitmap> mMemoryCache;
 	private static WeatherForecastDB mDB;
+	private static int index=0;
+	private static boolean isOk=false;
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -38,18 +40,36 @@ public class MyApplication extends Application {
 			}
 		};
 		mDB=WeatherForecastDB.getInstance(mContext);
+		
 	}
+	//获取全局Context
 	public static Context getContext()
 	{
 		return mContext;
 	}
+	//整个应用共享一个LruCache文件
 	public static LruCache<String, Bitmap> getLruCache()
 	{
 		return mMemoryCache;
 	}
-	public static WeatherForecastDB getWeatherForecastDB()
+	//全局获取应用中的SQLite文件，并对其执行各自的操作，加同步锁，避免多线程对SQLite造成错误
+	public synchronized static WeatherForecastDB getWeatherForecastDB()
 	{
 		return mDB;
+	}
+	
+	//获取和设置当前的页数和数据是否下载完成标记
+	public static int getIndex() {
+		return index;
+	}
+	public static void setIndex(int index) {
+		MyApplication.index = index;
+	}
+	public static boolean isOk() {
+		return isOk;
+	}
+	public static void setOk(boolean isOk) {
+		MyApplication.isOk = isOk;
 	}
 	
 }

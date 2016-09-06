@@ -59,12 +59,17 @@ public class WeatherInfoBeforeFragment extends Fragment {
 
 		initComponent(view);
 
-		showDataView(sharedPreference);
 		return view;
 	}
-
+     
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		showDataView(sharedPreference);
+		super.onStart();
+	}
 	
-	private void showDataView(SharedPreferences data) {
+protected void showDataView(SharedPreferences data) {
 		// TODO Auto-generated method stub
 		mCurrentDate.setText(data.getString("daily_date0", ""));
 		
