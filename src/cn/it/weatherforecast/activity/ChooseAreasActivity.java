@@ -109,6 +109,8 @@ public class ChooseAreasActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_areas);
+		mDB=MyApplication.getWeatherForecastDB();
+		mListArea=new ArrayList<Areas>();
 		ActivityCollector.addActivity(this);
 		// 添加层级导航功能
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -132,9 +134,6 @@ public class ChooseAreasActivity extends Activity {
 				mSelectCityName = selectArea.getCityName();
 				mSelectCityId = selectArea.getCityId();
 
-				// // 在子线程中下载指定的城市天气信息
-				// HttpUtilForDowloadJson.getWeatherInfoFromHttp(mSelectCityName,
-				// mSelectCityId, ChooseAreasActivity.this);
 				List<SelectedAreas> areas = mDB.loadSelectedAreas();
 				/*
 				 * 将点击所选的并且在SQLite中没有的item的信息存放在SQLite中，标识为所选城市。
@@ -165,8 +164,6 @@ public class ChooseAreasActivity extends Activity {
 
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				// 当该活动去开启另一个活动时，调用finish方法，使其自结束，避免了开启多个activity
-				// finish();
 			}
 		});
 
@@ -174,13 +171,6 @@ public class ChooseAreasActivity extends Activity {
 		mEditText.addTextChangedListener(mMyWatcher);
 		// 查詢SQLite中的數據，并顯示出來
 		queryAreas();
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		ActivityCollector.removeActivity(this);
 	}
 
 	// 封装的方法，对组件进行初始化操作
@@ -197,27 +187,21 @@ public class ChooseAreasActivity extends Activity {
 	// 该方法用于查询SQLite中的城市信息，如果没有则从HTPP中获取，并将其保存到SQLite中
 	protected void queryAreas() {
 		// TODO Auto-generated method stub
-		mDB = MyApplication.getWeatherForecastDB();
 		/*
 		 * 因为城市数据是通过后台服务进行下载的，为了避免数据没有存入SQLite中用户又跳转到城市列表activity
 		 * 中出现混乱，则通过一个while循环去判断是否存入SQLite中去。如果没有存入中，则将会出现一个ProgressDialog
 		 * 提示数据正在下载中，当有数据了，则开始获取数据，并显示在ListView中。
 		 */
 		showProgressDialog();
-
-		// 在while循环中判断，确保只有一次showProgress方法被执行了
-		while (true) {
-			/*
-			 * 在死循環中等待後台服務下載城市地址并存入SQLite中,
-			 * 反復從SQLite中獲取ListAreas的值，判斷如果>0則有值了，退出循環.
-			 */
-			mListArea = mDB.loadAreas();
-			if (mListArea.size() > 0) {
+		while(true)
+		{
+			if ((mDB.loadAreas()).size()> 0) {
 				closeProgressDialog();
 				break;
 			}
 		}
-
+		mListArea = mDB.loadAreas();
+		
 		// 获取数据并赋值给ListView中的adapter
 		mDataList.clear();
 

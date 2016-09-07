@@ -25,6 +25,7 @@
              <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="cn.it.weatherforecast.activity.SelectAreasActivity"/>
         </activity>
+        
         <!-- 指定城市的天气显示activity -->
         <activity
             android:name="cn.it.weatherforecast.activity.WeatherInfo"
@@ -58,6 +59,9 @@
         </activity>
             
         <service android:name="cn.it.weatherforecast.service.DownAreasService"></service>
+        
+        <service android:name="cn.it.weatherforecast.service.AutoUpdateWeatherService"></service>
     </application>
+    
 
 </manifest>

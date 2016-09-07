@@ -40,6 +40,8 @@ public class WeatherInfo extends FragmentActivity {
 
 	// 当前ViewPager显示的城市信息的Code
 	private int mCurrentIndex = 0;
+	private SharedPreferences mIndexRember;
+	private String LAST_INDEX="Last_Index";
 	// ViewPager组件及适配器
 	private ViewPager mWeatherInfoPager;
 	private AdapterForWeatherInfoPager mWeatherInfoPagerdapter;
@@ -66,11 +68,9 @@ public class WeatherInfo extends FragmentActivity {
 	//獲取指定的天氣存儲的SharedPreference數據
 	private SharedPreferences mWeatherInforData;
 	
-	//用於存儲當前的index
-	private SharedPreferences mIndexRember;
-	
 	//此標誌變量用於表示是否存在Fragment，然後去更新天氣
-	private boolean isNullFragment=false;
+	private boolean isNullFragment=true;
+	
 
 	// 执行初始化操作
 	@Override
@@ -87,23 +87,19 @@ public class WeatherInfo extends FragmentActivity {
 		// 获取SQLite中存储的选择的城市ID
 		mSelectedAreas = mDB.loadSelectedAreas();
 		
-		mIndexRember=getSharedPreferences("setting", Context.MODE_PRIVATE);
-
-		mCurrentIndex=mIndexRember.getInt("current_index", 0);
-	}
-
-	// 执行具体的逻辑操作
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
+		//获取存储index文件
+		mIndexRember=getSharedPreferences("settinig", Context.MODE_PRIVATE);
+		
+		//从文件获取上次关闭时记录的index
+		mCurrentIndex=mIndexRember.getInt(LAST_INDEX, 0);
 		// 执行初始化操作，完成该活动中的逻辑操作
 		addOperationToComponent();
 	}
 
+
+
 	// 向该活动中的组件添加逻辑处理
 	private void addOperationToComponent() {
-		
 		/*
 		 *  向button按钮添加监听事件处理
 		 */
@@ -117,7 +113,19 @@ public class WeatherInfo extends FragmentActivity {
 				startActivity(i);
 			}
 		});
+		addFragmentToViewPagerAdapter();
+		
+		addPagerChangerListener();
+		
+		if(!isNullFragment)
+		{
+			downloadAndUpdateWeatherInfo();
+		}
+	}
 
+
+	private void addFragmentToViewPagerAdapter() {
+		// TODO Auto-generated method stub
 		/*
 		 *  添加对ViewPager的操作
 		 *  1、根据SQLite中的数据来获取ViewPager的Adapter数据
@@ -128,7 +136,7 @@ public class WeatherInfo extends FragmentActivity {
 			mSelectCityFragment.add(emptyFragment);
 			mSelectAreasButton.setVisibility(View.INVISIBLE);
 		} else {
-			isNullFragment=true;
+			isNullFragment=false;
 			// 獲取其他活動通過Intent傳送過來的數據
 			String codeFromDialog = getIntent().getStringExtra(FROM_DIALOG);
 			String codeFromSelectedArea = getIntent().getStringExtra(
@@ -155,46 +163,43 @@ public class WeatherInfo extends FragmentActivity {
 				getSupportFragmentManager(), mSelectCityFragment);
 		mWeatherInfoPager.setAdapter(mWeatherInfoPagerdapter);
 		mWeatherInfoPager.setCurrentItem(mCurrentIndex);
-		//加以判断，是防止没有选择天气城市，导致NullPointException
-		if(isNullFragment)
-		{
-			downloadAndUpdateWeatherInfo();
-		}
-
-		// 向ViewPager中添加监听器，监听滑动状态变化
+	}
+	
+	private void addPagerChangerListener() {
+		
 		mWeatherInfoPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
 			@Override
 			public void onPageSelected(int position) {
 				// TODO Auto-generated method stub
-				mCurrentIndex = position;
-				/*
-				 * 在更新时间之前，先判断前后更新时间差是否在30分钟，是则更新，不是则不跟新
-				 * 这种方法，避免了来回重复更新的问题
-				 */
-				// 顯示progressdialog，用於等待線程下載
+				mCurrentIndex=position;
+				showProgressDialog();
 				long currentTime = System.currentTimeMillis();
 				long lastUpdateTime = mSelectedAreas.get(mCurrentIndex).getUpdateTime();
 				int timeDifference = (int) ((currentTime - lastUpdateTime) / (1000 * 60));
-				//更新間隔為10分鐘
-				if (timeDifference >= 10)
+				if (timeDifference >= 15)
 				{
 				downloadAndUpdateWeatherInfo();
 				}
+				else{
+					closeProgressDialog();
+				}
 			}
-
+			
 			@Override
-			public void onPageScrolled(int position, float arg1, int arg2) {
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				// TODO Auto-generated method stub
-				mCurrentIndex = position;
-
+				
 			}
-
+			
 			@Override
 			public void onPageScrollStateChanged(int state) {
 				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
+
 
 	/*
 	 *  在activity的onResume方法中当该活动已经全部准备好与用户显示时去后台下载城市名(non-Javadoc)
@@ -203,34 +208,27 @@ public class WeatherInfo extends FragmentActivity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		super.onResume();
 		// 加入判断，使只有第一次运行的时候才去下载数据，避免了重复下载的问题
 		if (mDB.loadAreas().size() == 0) {
 			// 当activity创建时，创建一个后台服务，用于下载城市信息
 			Intent intent = new Intent(this, DownAreasService.class);
 			startService(intent);
 		}
-		super.onResume();
-		
-		//开启后天跟新服务
+		//当activity到达前台与用户交互时，开启当前的城市后台更新服务
 		Intent i=new Intent(WeatherInfo.this,AutoUpdateWeatherService.class);
 		i.putExtra(START_AUTO_UPDATE, mSelectedAreas.get(mCurrentIndex).getSelectedCode());
 		startService(i);
 	}
-
-	//當活動銷毀時，存儲mCurrentIndex到文件中
+	
+	//当当前的活动不可见时，记录当前的Index，回复时获取该index
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		super.onDestroy();
-		mIndexRember.edit().putInt("current_index", mCurrentIndex).commit();
+		super.onStop();
+		mIndexRember.edit().putInt(LAST_INDEX, mCurrentIndex).commit();
 	}
-	/*
-	 * 当活动的启动方式为simpleTask时，如果该Activity已经存在，则getIntent接收的是上一个Activity的Intent，
-	 * Intent并没有更新，即还是上一次的Intent数据。如果不存在，则会得到最新的Intent。
-	 * 覆盖onNewIntent方法是为了更新Intent protected void onNewIntent(Intent intent) { //
-	 * TODO Auto-generated method stub super.onNewIntent(intent);
-	 * setIntent(intent); getIntent().putExtras(intent); }
-	 */
+
 	// 得到自定义的菜单视图
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,7 +236,6 @@ public class WeatherInfo extends FragmentActivity {
 		getMenuInflater().inflate(R.menu.activity_weather_info, menu);
 		return true;
 	}
-
 	// 设置菜单中的item监听处理事件
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -250,17 +247,23 @@ public class WeatherInfo extends FragmentActivity {
 			 * 这种方法，避免了来回重复更新的问题
 			 */
 			// 顯示progressdialog，用於等待線程下載
-			showProgressDialog();
-			long currentTime = System.currentTimeMillis();
-			long lastUpdateTime = mSelectedAreas.get(mCurrentIndex).getUpdateTime();
-			int timeDifference = (int) ((currentTime - lastUpdateTime) / (1000 * 60));
-			if (timeDifference >= 10)
+			if(!isNullFragment)
 			{
-			downloadAndUpdateWeatherInfo();
+				showProgressDialog();
+				long currentTime = System.currentTimeMillis();
+				long lastUpdateTime = mSelectedAreas.get(mCurrentIndex).getUpdateTime();
+				int timeDifference = (int) ((currentTime - lastUpdateTime) / (1000 * 60));
+				if (timeDifference >= 10)
+				{
+				downloadAndUpdateWeatherInfo();
+				}
+				else{
+					closeProgressDialog();
+					Toast.makeText(this, "刷新完成", Toast.LENGTH_SHORT).show();
+				}
 			}
 			else{
-				closeProgressDialog();
-				Toast.makeText(this, "刷新完成", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "还没有选择天气", Toast.LENGTH_SHORT).show();
 			}
 			break;
 		default:
@@ -273,6 +276,7 @@ public class WeatherInfo extends FragmentActivity {
 	 *  此方法用於封裝下載的當前城市的天氣信息，并根據下載的數據跟新UI界面
 	 */
 	private void downloadAndUpdateWeatherInfo() {
+		
 		String currentAreaCode=mSelectedAreas.get(mCurrentIndex)
 					.getSelectedCode();
 		
