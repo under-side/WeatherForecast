@@ -42,7 +42,7 @@ public class SelectAreasActivity extends Activity {
 	private List<SelectedAreas> mSelectedAreas;
 	private List<ModelForSelectAreas> mModelSelectedAreas;
 	private TextView mEmptyViewText;
-	
+
 	private LocationClient mBDLocation;
 
 	@Override
@@ -65,7 +65,7 @@ public class SelectAreasActivity extends Activity {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
-		
+
 		addOperationForComponent();
 	}
 
@@ -153,12 +153,13 @@ public class SelectAreasActivity extends Activity {
 	}
 
 	// 得到自定义的菜单视图
-		@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
-			// TODO Auto-generated method stub
-			getMenuInflater().inflate(R.menu.activity_selected_areas, menu);
-			return true;
-		}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		getMenuInflater().inflate(R.menu.activity_selected_areas, menu);
+		return true;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -169,7 +170,7 @@ public class SelectAreasActivity extends Activity {
 			}
 			return true;
 		case R.id.menu_item_location_city:
-			mBDLocation=BDLocationClient.getLocatinClientInstance();
+			mBDLocation = BDLocationClient.getLocatinClientInstance();
 			mBDLocation.start();
 			return true;
 		default:
@@ -177,12 +178,12 @@ public class SelectAreasActivity extends Activity {
 
 		}
 	}
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		if(mBDLocation!=null)
-		{
+		if (mBDLocation != null) {
 			mBDLocation.stop();
 		}
 	}
