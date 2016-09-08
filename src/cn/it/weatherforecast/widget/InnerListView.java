@@ -5,6 +5,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ListView;
 
+/*
+ * 此类自定义的ListView，用于重载其中的onInterceptTouchEvent方法，判断交换滑动手势的权限
+ */
 public class InnerListView extends ListView {
 
 	public InnerListView(Context context, AttributeSet attrs) {

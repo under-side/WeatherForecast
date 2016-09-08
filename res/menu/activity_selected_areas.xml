@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- 此为向SelectedAreasActivity中添加菜单的布局wenjian -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
      <item android:id="@+id/menu_item_location_city"
         android:icon="@drawable/location"

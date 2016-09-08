@@ -1,5 +1,8 @@
 package cn.it.weatherforecast.model;
 
+/*
+ * 此为每小时天气预测ListView的模型实体类
+ */
 public class AdapterHourlyInfoModel {
 
 	private String date, pop, tmp, dir;

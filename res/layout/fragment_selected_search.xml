@@ -16,8 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="No Data Find"
-        android:textSize="15sp" />
+        android:textColor="#F2F2F2"
+        android:textSize="20sp"
+        android:text="No Data Find"/>
 
     <RelativeLayout
         android:id="@+id/layout"

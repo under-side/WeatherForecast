@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
+/*
+ * 此类为自定位的GridView组件，重载了其中的onMeasure方法，判断当前的显示是否容纳内容。
+ * 避免了ScrollView嵌套GridView中显示不全的问题
+ */
 public class MyGridView extends GridView {
 
 	public MyGridView(Context context, AttributeSet attrs) {

@@ -2,6 +2,9 @@ package cn.it.weatherforecast.model;
 
 import java.io.Serializable;
 
+/*
+ * 此为GridView2组件建立模式实体类
+ */
 public class ModelForGrid2 implements Serializable {
 
 	/**

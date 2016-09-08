@@ -12,6 +12,9 @@ import java.net.URL;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/*
+ * 此为在网上通过HttpURLConnection类获取网上数据的一个封装
+ */
 public class HttpDownloadUtil {
 
 	/*

@@ -1,5 +1,8 @@
 package cn.it.weatherforecast.model;
 
+/*
+ * 此为每天天气预测ListView的模型实体类
+ */
 public class AdapterDailyInfoModel {
 
 	String date, topTemperture, lowTemperture, weatherTxt;

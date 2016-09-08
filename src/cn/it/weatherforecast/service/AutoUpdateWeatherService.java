@@ -16,6 +16,9 @@ import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
 
+/*
+ * 此为后台更新数据所建立的服务类
+ */
 public class AutoUpdateWeatherService extends Service {
 
 	private String mSelectId;

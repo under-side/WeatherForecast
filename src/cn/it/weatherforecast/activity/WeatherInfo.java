@@ -28,7 +28,6 @@ import cn.it.weatherforecast.fragment.adapter.AdapterForWeatherInfoPager;
 import cn.it.weatherforecast.model.SelectedAreas;
 import cn.it.weatherforecast.service.AutoUpdateWeatherService;
 import cn.it.weatherforecast.service.DownAreasService;
-import cn.it.weatherforecast.util.ActivityCollector;
 import cn.it.weatherforecast.util.HttpCallbackListenerForJson;
 import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
@@ -76,7 +75,6 @@ public class WeatherInfo extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_weather_info);
-		ActivityCollector.addActivity(this);
 
 		mSelectAreasButton = (Button) findViewById(R.id.weatherinfo_add_city);
 		mWeatherInfoPager = (ViewPager) findViewById(R.id.weather_info_pager);

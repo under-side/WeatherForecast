@@ -1,8 +1,5 @@
 package cn.it.weatherforecast.activity;
 
-import cn.it.weatherforecast.R;
-import cn.it.weatherforecast.model.ModelForGrid2;
-import cn.it.weatherforecast.util.ActivityCollector;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +7,8 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import cn.it.weatherforecast.R;
+import cn.it.weatherforecast.model.ModelForGrid2;
 
 public class SuggestionDetailActivity extends Activity {
 
@@ -21,7 +20,6 @@ public class SuggestionDetailActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_for_suggestion_detail);
-		ActivityCollector.addActivity(this);
 		// 添加层级导航功能
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,12 +50,5 @@ public class SuggestionDetailActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 
 		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		ActivityCollector.removeActivity(this);
 	}
 }

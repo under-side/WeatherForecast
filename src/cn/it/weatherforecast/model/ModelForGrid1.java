@@ -1,5 +1,8 @@
 package cn.it.weatherforecast.model;
 
+/*
+ * 此为GridView1组件建立模式实体类
+ */
 public class ModelForGrid1 {
 
 	int id;

@@ -9,6 +9,9 @@ import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
 
+/*
+ * 此为在后台中下载地址的服务类
+ */
 public class DownAreasService extends Service {
 
 	// 获取城市信息的URL

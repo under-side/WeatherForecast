@@ -63,16 +63,20 @@ public class WeatherInfoScrollFragment extends Fragment {
 		showViewFromData(mSharedPreferences);
 	}
 
+	// 有所给的data数据来对fragment中的各个组件进行赋值
 	protected void showViewFromData(SharedPreferences data) {
 		// TODO Auto-generated method stub
 
 		mWeatherDescribe.setText("今天："
 				+ data.getString("suggestion_comf_txt", ""));
 
+		// 对每小时天气预测List添加UI数据
 		addOperationToList(data);
 
+		// 对每天天气预测List添加UI数据
 		addOperationForDailyList(data);
 
+		// 对GridView添加UI数据
 		addOperationForGridView1(data);
 
 		addOperationForGridView2(data);

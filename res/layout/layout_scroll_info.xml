@@ -20,7 +20,7 @@
         android:layout_height="0.5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:background="#ffffff" />
+        android:background="#fcfcfc" />
         
         <TextView 
         android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
     <View 
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#ffffff"/>
+        android:background="#fcfcfc"/>
     
     <TextView
         android:id="@+id/weather_describe"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginBottom="5dp"
-        android:background="#ffffff"/>
+        android:background="#fcfcfc"/>
 
        <TextView 
         android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
-        android:background="#ffffff"/>
+        android:background="#fcfcfc"/>
       <GridView
         android:id="@+id/second_grid_view"
         android:layout_width="match_parent"
@@ -99,7 +99,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
-        android:background="#ffffff"/>
+        android:background="#fcfcfc"/>
     
     <TextView 
         android:layout_width="wrap_content"
@@ -107,7 +107,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:textColor="#bfbfbf"
         android:text="生活建议"/>
     
     

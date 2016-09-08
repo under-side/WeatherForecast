@@ -42,6 +42,7 @@ public class HotCitySelectedFragment extends Fragment {
 		// TODO Auto-generated method stub
 		View view=inflater.inflate(R.layout.fragment_selected_hotcity, container,false);
 		mDB=MyApplication.getWeatherForecastDB();
+		//初始化组件，获取组件实例对象
 		initComponent(view);
 		
 		return view;

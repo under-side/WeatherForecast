@@ -21,7 +21,12 @@ import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.model.Areas;
 
 /*
- * 该类封装了运用JSONObject的方法来解析JSON数据
+ * 该类是一个封装的工具类
+ * 1，用于解析在网上获取的城市信息JSON数据，并存放在SharedPreference文件中
+ * 2，用于解析在网上获取的指定的城市天气JSON数据，并将其存放在data文件中
+ * 3，事件的分解函数的封装
+ * 4，图片的获取及存放在LruCache中
+ * 5，封装了由时间日期获取星期的方法
  */
 public class Utility {
 

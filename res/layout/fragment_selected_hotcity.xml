@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textSize="20sp"
+        android:textColor="#00cc99"
         android:text="热门城市：" />
 
     <ListView

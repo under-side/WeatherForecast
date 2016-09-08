@@ -136,6 +136,9 @@ public class SearchSelectedFragment extends Fragment {
 		mAreaList.setEmptyView(mEmptyText);
 	}
 
+	/*
+	 * 封装方法向组件中添加逻辑操作
+	 */
 	private void addOperationToComponent() {
 
 		// 向組件EditText添加輸入監聽器，監聽輸入欄中的狀態變化

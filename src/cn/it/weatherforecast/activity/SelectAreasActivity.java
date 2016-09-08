@@ -27,7 +27,6 @@ import cn.it.weatherforecast.db.WeatherForecastDB;
 import cn.it.weatherforecast.fragment.adapter.AdapterForSelectAreas;
 import cn.it.weatherforecast.model.ModelForSelectAreas;
 import cn.it.weatherforecast.model.SelectedAreas;
-import cn.it.weatherforecast.util.ActivityCollector;
 import cn.it.weatherforecast.util.BDLocationClient;
 import cn.it.weatherforecast.util.MyApplication;
 
@@ -50,7 +49,6 @@ public class SelectAreasActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_city);
-		ActivityCollector.addActivity(this);
 		mEmptyViewText = (TextView) findViewById(R.id.empty_for_selected_list);
 		mSelectAreasList = (ListView) findViewById(R.id.select_city_list);
 		mSelectAreasList.setEmptyView(mEmptyViewText);

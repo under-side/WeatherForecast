@@ -26,6 +26,7 @@ public class WeatherForecastDBOpenHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated constructor stub
 	}
 
+	//在onCreate方法中完成数据库和建表语句
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub

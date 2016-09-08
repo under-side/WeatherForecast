@@ -1,5 +1,8 @@
 package cn.it.weatherforecast.model;
 
+/*
+ * 此为从数据库中获取的已经选择的城市信息建立模型实体类
+ */
 public class SelectedAreas {
 
 	private String mSelectedCode;

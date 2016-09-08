@@ -73,6 +73,7 @@ public class WeatherInfoFragment extends Fragment {
 		return view;
 	}
 
+	//根据获得的新的SharedPreference数据，来更新UI界面
 	public void updateView(SharedPreferences data) {
 		mWeatherBeforeFragment.showDataView(data);
 		mWeatherScrollFragment.showViewFromData(data);

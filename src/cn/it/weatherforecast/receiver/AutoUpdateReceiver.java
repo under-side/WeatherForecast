@@ -5,6 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/*
+ * 此类为后台建立的长期更新服务所建立的广播，用于提醒后台更新服务
+ */
 public class AutoUpdateReceiver extends BroadcastReceiver {
 
 	@Override

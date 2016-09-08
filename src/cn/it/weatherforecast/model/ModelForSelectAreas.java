@@ -1,5 +1,8 @@
 package cn.it.weatherforecast.model;
 
+/*
+ * 此为SelectedAreasActivity建立模型实体类
+ */
 public class ModelForSelectAreas {
 
 	private String name, weather, temp, code;
