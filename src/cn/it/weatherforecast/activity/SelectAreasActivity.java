@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +28,10 @@ import cn.it.weatherforecast.fragment.adapter.AdapterForSelectAreas;
 import cn.it.weatherforecast.model.ModelForSelectAreas;
 import cn.it.weatherforecast.model.SelectedAreas;
 import cn.it.weatherforecast.util.ActivityCollector;
+import cn.it.weatherforecast.util.BDLocationClient;
 import cn.it.weatherforecast.util.MyApplication;
+
+import com.baidu.location.LocationClient;
 
 public class SelectAreasActivity extends Activity {
 
@@ -38,6 +42,8 @@ public class SelectAreasActivity extends Activity {
 	private List<SelectedAreas> mSelectedAreas;
 	private List<ModelForSelectAreas> mModelSelectedAreas;
 	private TextView mEmptyViewText;
+	
+	private LocationClient mBDLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,7 @@ public class SelectAreasActivity extends Activity {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
-
+		
 		addOperationForComponent();
 	}
 
@@ -146,6 +152,13 @@ public class SelectAreasActivity extends Activity {
 				});
 	}
 
+	// 得到自定义的菜单视图
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) {
+			// TODO Auto-generated method stub
+			getMenuInflater().inflate(R.menu.activity_selected_areas, menu);
+			return true;
+		}
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
@@ -155,9 +168,22 @@ public class SelectAreasActivity extends Activity {
 				NavUtils.navigateUpFromSameTask(this);
 			}
 			return true;
+		case R.id.menu_item_location_city:
+			mBDLocation=BDLocationClient.getLocatinClientInstance();
+			mBDLocation.start();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 
+		}
+	}
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		if(mBDLocation!=null)
+		{
+			mBDLocation.stop();
 		}
 	}
 }

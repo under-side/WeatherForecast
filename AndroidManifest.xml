@@ -8,14 +8,24 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
+   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+ 
     <application
         android:name="cn.it.weatherforecast.util.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launch"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+         <service android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+        </service>
+        <meta-data 
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="BBf9o26ClsByR3BF36tHLpNyeMbSUfwU"/>
         
         <!-- 选取指定城市activity -->
         <activity
