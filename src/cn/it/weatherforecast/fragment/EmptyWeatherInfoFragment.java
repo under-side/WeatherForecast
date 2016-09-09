@@ -31,6 +31,7 @@ public class EmptyWeatherInfoFragment extends Fragment {
 				// TODO Auto-generated method stub
 				Intent i = new Intent(MyApplication.getContext(),
 						SelectAreasActivity.class);
+				i.putExtra("isNullFragment", true);
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
 			}

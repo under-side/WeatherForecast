@@ -206,11 +206,16 @@ public class WeatherInfo extends FragmentActivity {
 			Intent intent = new Intent(this, DownAreasService.class);
 			startService(intent);
 		}
-		// 当activity到达前台与用户交互时，开启当前的城市后台更新服务
-		Intent i = new Intent(WeatherInfo.this, AutoUpdateWeatherService.class);
-		i.putExtra(START_AUTO_UPDATE, mSelectedAreas.get(mCurrentIndex)
-				.getSelectedCode());
-		startService(i);
+		// 判断当前不为空fragment时，才开启后台更新服务
+		if (!isNullFragment) {
+			// 当activity到达前台与用户交互时，开启当前的城市后台更新服务
+			Intent i = new Intent(WeatherInfo.this,
+					AutoUpdateWeatherService.class);
+			i.putExtra(START_AUTO_UPDATE, mSelectedAreas.get(mCurrentIndex)
+					.getSelectedCode());
+			startService(i);
+		}
+
 	}
 
 	// 当当前的活动不可见时，记录当前的Index，回复时获取该index
@@ -241,16 +246,7 @@ public class WeatherInfo extends FragmentActivity {
 			// 顯示progressdialog，用於等待線程下載
 			if (!isNullFragment) {
 				showProgressDialog();
-				long currentTime = System.currentTimeMillis();
-				long lastUpdateTime = mSelectedAreas.get(mCurrentIndex)
-						.getUpdateTime();
-				int timeDifference = (int) ((currentTime - lastUpdateTime) / (1000 * 60));
-				if (timeDifference >= 10) {
-					downloadAndUpdateWeatherInfo();
-				} else {
-					closeProgressDialog();
-					Toast.makeText(this, "刷新完成", Toast.LENGTH_SHORT).show();
-				}
+				downloadAndUpdateWeatherInfo();
 			} else {
 				Toast.makeText(this, "还没有选择天气", Toast.LENGTH_SHORT).show();
 			}

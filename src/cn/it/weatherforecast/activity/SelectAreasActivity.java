@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -38,11 +40,19 @@ public class SelectAreasActivity extends Activity {
 	private Button mAddAreasButton;
 	private BaseAdapter adapter;
 	private WeatherForecastDB mDB;
+	//模型实体类链表
 	private List<SelectedAreas> mSelectedAreas;
 	private List<ModelForSelectAreas> mModelSelectedAreas;
+	
+	//ListView的空View视图
 	private TextView mEmptyViewText;
 
+	//运用百度定位服务实现定位功能
 	private LocationClient mBDLocation;
+	
+	//该变量用于判断是否没有选择的fragment，如果是则弹出一个对话框，提醒用户右上角的定位按钮
+	private boolean isNullFragment;
+	AlertDialog dialog=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +73,31 @@ public class SelectAreasActivity extends Activity {
 				getActionBar().setDisplayHomeAsUpEnabled(true);
 			}
 		}
-
+        
+		/*
+		 * 制定弹窗，提醒用户右上角的定位功能。
+		 * 此功能只会在SQLite中没有已经选择城市列表时触发。
+		 */
+		isNullFragment=getIntent().getBooleanExtra("isNullFragment", false);
+		if(isNullFragment)
+		{
+			AlertDialog.Builder builder=new AlertDialog.Builder(SelectAreasActivity.this);
+			builder
+			.setMessage("点击右上角，可实现定位。")
+			.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// TODO Auto-generated method stub
+					dialog.dismiss();
+				}
+			});
+			dialog=builder.create();
+			dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			dialog.show();
+		}
+		
+		//向该activity中的组件添加处理用户点击逻辑
 		addOperationForComponent();
 	}
 
