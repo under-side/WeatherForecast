@@ -14,6 +14,12 @@ import cn.it.weatherforecast.R;
 import cn.it.weatherforecast.fragment.HotCitySelectedFragment;
 import cn.it.weatherforecast.fragment.SearchSelectedFragment;
 
+/*
+ * 该类实现的功能：
+ * 1，显示热门城市列表或所有城市列表
+ * 2，点击城市item时，保存所选城市信息到SQLite中
+ * 3，跳转到SelectedAreasActivity中
+ */
 public class ChooseAreasActivity extends FragmentActivity {
 
 	//定义全局变量

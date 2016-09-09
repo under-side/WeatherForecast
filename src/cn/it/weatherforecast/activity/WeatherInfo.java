@@ -32,7 +32,13 @@ import cn.it.weatherforecast.util.HttpCallbackListenerForJson;
 import cn.it.weatherforecast.util.HttpUtilForDowloadJson;
 import cn.it.weatherforecast.util.MyApplication;
 import cn.it.weatherforecast.util.Utility;
-
+/*
+ * 该类实现的功能：
+ * 1，显示SQLite中存储的选中的城市列表的天气详细信息
+ * 2，手动刷新
+ * 3，ViewPager添加pagerchangedListener，活动刷新
+ * 4，设置更新时间，每个十五分钟，才会再次刷新
+ */
 public class WeatherInfo extends FragmentActivity {
 
 	private Button mSelectAreasButton;

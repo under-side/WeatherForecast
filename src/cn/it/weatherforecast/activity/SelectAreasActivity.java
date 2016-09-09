@@ -33,7 +33,13 @@ import cn.it.weatherforecast.util.BDLocationClient;
 import cn.it.weatherforecast.util.MyApplication;
 
 import com.baidu.location.LocationClient;
-
+/*
+ * 该类实现的功能：
+ * 1，显示SQLite中存储的选择的城市信息
+ * 2，点击跳转到WeatherInfoActivity中
+ * 3，长按item实现弹窗，执行查看和删除指定的城市功能
+ * 4，实现百度定位服务
+ */
 public class SelectAreasActivity extends Activity {
 
 	private ListView mSelectAreasList;

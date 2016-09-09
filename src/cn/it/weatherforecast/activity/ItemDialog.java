@@ -21,7 +21,7 @@ import cn.it.weatherforecast.util.MyApplication;
 
 /*
  * 自定义一个Dialog，设置在当长按SelecedActivity中的item时，将会弹出一个dialog。
- * 该dialog用于执行item的点击操作。
+ * 该dialog用于执行item的点击操作。实现了查看和删除指定item的功能
  */
 public class ItemDialog extends Dialog {
 
